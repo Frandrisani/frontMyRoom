@@ -1,0 +1,94 @@
+@import "../scss/functions";
+@import "../scss/variables";
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+// COLORI
+$new-primary: rgb(0, 255, 0);
+$new-secondary: rgb(0, 0, 0);
+$new-warning: orange;
+
+$new-theme-colors: (
+  "primary": $new-primary,
+  "secondary": $new-secondary,
+  "warning": $new-warning,
+  "BackgroundAppMain": rgb(247, 247, 247),
+  "BackgroundAppWelcomePage": #3c1b7d,
+  "Pulsanti": #9c89b3,
+);
+$theme-colors: map-merge($theme-colors, $new-theme-colors);
+
+//SPAZI
+$new-spacers: (
+  0: 0,
+  15: 0.125rem,
+  1: $spacer * 1,
+  2: $spacer * 2,
+  3: $spacer * 3,
+  4: $spacer * 4,
+  5: $spacer * 5,
+  6: $spacer * 6,
+);
+
+$spacers: map-merge($spacers, $new-spacers);
+
+// TESTO
+
+$title-font: "Inter", sans-serif;
+$body-font: "Lato", sans-serif;
+
+$h1-font-weight: 900;
+$h2-font-weight: 700;
+$h3-font-weight: 500;
+$h4-font-weight: 400;
+$h5-font-weight: 300;
+$h6-font-weight: 100;
+
+$h1-font-size: 4rem;
+$h2-font-size: 3rem;
+$h3-font-size: 2.5rem;
+$h4-font-size: 2rem;
+$h5-font-size: 1.5rem;
+$h6-font-size: 1rem;
+
+h1 {
+  font-family: $title-font;
+  font-weight: $h1-font-weight;
+  font-size: $h1-font-size;
+}
+
+h2 {
+  font-family: $title-font;
+  font-weight: $h2-font-weight;
+  font-size: $h2-font-size;
+}
+
+h3 {
+  font-family: $title-font;
+  font-weight: $h3-font-weight;
+  font-size: $h3-font-size;
+}
+
+h4 {
+  font-family: $title-font;
+  font-weight: $h4-font-weight;
+  font-size: $h4-font-size;
+}
+
+h5 {
+  font-family: $title-font;
+  font-weight: $h5-font-weight;
+  font-size: $h5-font-size;
+}
+
+h6 {
+  font-family: $title-font;
+  font-weight: $h6-font-weight;
+  font-size: $h6-font-size;
+}
+
+body {
+  font-family: $body-font;
+}
+
+@import "../scss/bootstrap.scss";
