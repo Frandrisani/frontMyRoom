@@ -6,6 +6,13 @@ export const FETCH_ROOMMATES = "FETCH_ROOMMATES";
 export const FETCH_ROOMMATES_SUCCESS = "FETCH_ROOMMATES_SUCCESS";
 export const FETCH_ROOMMATES_FAILURE = "FETCH_ROOMMATES_FAILURE";
 
+export const FETCH_ROOMMATE_FOR_PERSONAL_PAGE =
+  "FETCH_ROOMMATE_FOR_PERSONAL_PAGE";
+export const FETCH_ROOMMATE_FOR_PERSONAL_PAGE_SUCCESS =
+  "FETCH_ROOMMATE_FOR_PERSONAL_PAGE_SUCCESS";
+export const FETCH_ROOMMATE_FOR_PERSONAL_PAGE_FAILURE =
+  "FETCH_ROOMMATE_FOR_PERSONAL_PAGE_FAILURE";
+
 export const SELECT_APARTMENT = "SELECT_APARTMENT";
 export const SELECT_ROOMMATE = "SELECT_ROOMMATE";
 
@@ -24,7 +31,7 @@ export const fetchApartments = () => async (dispatch) => {
   }
 };
 
-export const fetchRoommates = () => async (dispatch) => {
+export const fetchRoommate = () => async (dispatch) => {
   dispatch({ type: FETCH_ROOMMATES });
   try {
     const response = await fetch("API_URL_FOR_ROOMMATES");
@@ -32,6 +39,20 @@ export const fetchRoommates = () => async (dispatch) => {
     dispatch({ type: FETCH_ROOMMATES_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: FETCH_ROOMMATES_FAILURE, payload: error.message });
+  }
+};
+
+export const fetchRoommateForPersonalPage = (id) => async (dispatch) => {
+  dispatch({ type: FETCH_ROOMMATE_FOR_PERSONAL_PAGE });
+  try {
+    const response = await fetch(`API_URL_FOR_ROOMMATE/${id}`);
+    const data = await response.json();
+    dispatch({ type: FETCH_ROOMMATE_FOR_PERSONAL_PAGE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: FETCH_ROOMMATE_FOR_PERSONAL_PAGE_FAILURE,
+      payload: error.message,
+    });
   }
 };
 
