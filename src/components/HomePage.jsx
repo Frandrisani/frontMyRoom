@@ -6,7 +6,7 @@ import CardHome from "./CardHome";
 const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
-  const { city, isLoading, error } = useSelector((state) => state.city);
+  const { apartments, isLoading, error } = useSelector((state) => state.city);
 
   const handleSearch = () => {
     dispatch(fetchCity(searchQuery));
@@ -26,9 +26,9 @@ const HomePage = () => {
       </div>
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
-      {city && (
+      {apartments && (
         <div className="card-list">
-          {city.apartments.map((apartment) => (
+          {apartments.map((apartment) => (
             <CardHome key={apartment.id} apartment={apartment} />
           ))}
         </div>
