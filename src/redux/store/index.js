@@ -1,17 +1,13 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
-import apartmentReducer from "../reducers/apartmentReducer";
-import roommateReducer from "../reducers/roommateReducer";
-import cityReducer from "../reducers/cityReducer";
-import PersonaPAgeRoommate from "../reducers/PersonalePAgeRommate";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-const rootReducer = combineReducers({
-  apartment: apartmentReducer,
-  roommate: roommateReducer,
-  city: cityReducer,
-  roommatePersonal: PersonaPAgeRoommate,
+import registrazioneReducer from "../reducers/registrazioneReducers";
+
+const globalReducer = combineReducers({
+  registration: registrazioneReducer,
 });
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = configureStore({
+  reducer: globalReducer,
+});
 
 export default store;
