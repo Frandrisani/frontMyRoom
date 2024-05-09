@@ -2,8 +2,13 @@ import { useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import "../assets/custom/custom.scss";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/actions/";
 
 const WelcomeApp = () => {
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.login.error);
+
   const [showLogin, setShowLogin] = useState(false);
 
   const handleClick = () => {
@@ -25,8 +30,11 @@ const WelcomeApp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
-    setUser(loginUser);
+    dispatch(login(user)).then((success) => {
+      if (success) {
+        window.location.href = "/home";
+      }
+    });
   };
 
   return (
@@ -120,6 +128,7 @@ const WelcomeApp = () => {
                 <Button variant="Pulsanti" type="submit">
                   Go
                 </Button>
+                {error && <p>{error}</p>}
               </Form>
             </div>
           )}
