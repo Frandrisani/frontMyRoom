@@ -1,39 +1,75 @@
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchCity } from "../redux/actions/";
-import CardHome from "./CardHome";
+import CustomNavbar from "./CustomNavbar";
+import "../assets/custom/custom.scss";
+import { Container, Card, Form, Button, InputGroup } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const HomePage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const dispatch = useDispatch();
-  const { apartments, isLoading, error } = useSelector((state) => state.city);
+  const [currentPage, setCurrentPage] = useState("");
+  const location = useLocation();
+  useEffect(() => {
+    setCurrentPage(location.pathname);
+  }, [location]);
 
-  const handleSearch = () => {
-    dispatch(fetchCity(searchQuery));
+  const initialSearch = {
+    city: "",
+  };
+  const [search, setSearch] = useState(initialSearch);
+
+  const handleChange = (key, value) => {
+    setSearch({
+      ...search,
+      [key]: value,
+    });
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Ricerca eseguita!");
+  };
+
+  const isValidStep = () => {
+    return search.city !== "";
   };
 
   return (
-    <div>
-      <h1>HomePage</h1>
-      <div className="search-bar">
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search city..."
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p>Error: {error}</p>}
-      {apartments && (
-        <div className="card-list">
-          {apartments.map((apartment) => (
-            <CardHome key={apartment.id} apartment={apartment} />
-          ))}
-        </div>
-      )}
-    </div>
+    <>
+      <CustomNavbar currentPage={currentPage} />
+
+      <h3 className="text-center text-BackgroundAppWelcomePage fw-bold mt-4 mb-2">
+        Where would you like to live?
+      </h3>
+      <Container className="d-flex justify-content-center align-items-center">
+        <Card
+          style={{ width: "400px", height: "110px" }}
+          className="border border-Pulsanti border-3"
+        >
+          <Card.Body>
+            <Form onSubmit={handleSearch} className="m-1">
+              <InputGroup className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter city"
+                  value={search.city}
+                  onChange={(e) => {
+                    handleChange("city", e.target.value);
+                  }}
+                  className="text-Pulsanti"
+                />
+                <Button
+                  variant="Pulsanti"
+                  type="submit"
+                  className="text-white"
+                  disabled={!isValidStep()}
+                >
+                  Search
+                </Button>
+              </InputGroup>
+            </Form>
+          </Card.Body>
+        </Card>
+      </Container>
+    </>
   );
 };
 

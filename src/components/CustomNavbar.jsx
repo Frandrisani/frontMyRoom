@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "../assets/custom/custom.scss";
-import { Heart, Search, Person, ChatLeftDots } from "react-bootstrap-icons";
+import {
+  Heart,
+  Search,
+  Person,
+  ChatLeftDots,
+  PlusCircleDotted,
+} from "react-bootstrap-icons";
 
-const CustomNavbar = () => {
+const CustomNavbar = ({ currentPage }) => {
   const [isLgScreen, setIsLgScreen] = useState(false);
 
   useEffect(() => {
@@ -44,16 +50,57 @@ const CustomNavbar = () => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="#home">
+                  <Nav.Link
+                    href="/home"
+                    style={{
+                      pointerEvents: currentPage === "/home" ? "none" : "auto",
+                    }}
+                  >
                     <div className="d-flex flex-column align-items-center">
-                      <Heart className="ml-4 text-white fs-5 mx-2" />
-                      <p className="text-white f4 fw-bolder">Saved Rooms</p>
+                      <Search
+                        className="ml-4 fs-5 mx-2"
+                        style={{
+                          color: currentPage === "/home" ? "grey" : "white",
+                        }}
+                      />
+                      <p
+                        className="f4 fw-bolder"
+                        style={{
+                          color: currentPage === "/home" ? "grey" : "white",
+                        }}
+                      >
+                        Search
+                      </p>
+                    </div>
+                  </Nav.Link>
+                  <Nav.Link
+                    href="/new-ad"
+                    style={{
+                      pointerEvents:
+                        currentPage === "/new-ad" ? "none" : "auto",
+                    }}
+                  >
+                    <div className="d-flex flex-column align-items-center">
+                      <PlusCircleDotted
+                        className="ml-4 fs-5 mx-2"
+                        style={{
+                          color: currentPage === "/new-ad" ? "grey" : "white",
+                        }}
+                      />
+                      <p
+                        className=" f4 fw-bolder"
+                        style={{
+                          color: currentPage === "/new-ad" ? "grey" : "white",
+                        }}
+                      >
+                        Create Ad
+                      </p>
                     </div>
                   </Nav.Link>
                   <Nav.Link href="#home">
                     <div className="d-flex flex-column align-items-center">
-                      <Search className="ml-4 text-white fs-5 mx-2" />
-                      <p className="text-white f4 fw-bolder">Search</p>
+                      <Heart className="ml-4 text-white fs-5 mx-2" />
+                      <p className="text-white f4 fw-bolder">Saved Rooms</p>
                     </div>
                   </Nav.Link>
                   <Nav.Link href="#home">
@@ -80,7 +127,7 @@ const CustomNavbar = () => {
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                  <Nav.Link href="#home">
+                  {/* <Nav.Link href="#home">
                     <img
                       src="/public/Logo.png"
                       alt="TastoHomePage"
@@ -88,12 +135,36 @@ const CustomNavbar = () => {
                       height="30"
                       className="me-1"
                     />
+                  </Nav.Link> */}
+                  <Nav.Link
+                    href="/home"
+                    style={{
+                      pointerEvents: currentPage === "/home" ? "none" : "auto",
+                    }}
+                  >
+                    <Search
+                      className="ml-4 fs-2 mx-1"
+                      style={{
+                        color: currentPage === "/home" ? "grey" : "white",
+                      }}
+                    />
+                  </Nav.Link>
+                  <Nav.Link
+                    href="new-ad"
+                    style={{
+                      pointerEvents:
+                        currentPage === "/new-ad" ? "none" : "auto",
+                    }}
+                  >
+                    <PlusCircleDotted
+                      className="ml-4 fs-2 mx-1"
+                      style={{
+                        color: currentPage === "/new-ad" ? "grey" : "white",
+                      }}
+                    />
                   </Nav.Link>
                   <Nav.Link href="#link">
                     <Heart className="ml-4 text-white fs-2 mx-1" />
-                  </Nav.Link>
-                  <Nav.Link href="#link">
-                    <Search className="ml-4 text-white fs-2 mx-1" />
                   </Nav.Link>
                   <Nav.Link href="#link">
                     <ChatLeftDots className="ml-4 text-white fs-2 mx-1" />
