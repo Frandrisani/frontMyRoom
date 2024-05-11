@@ -126,10 +126,8 @@ const CreateAd = () => {
                       />
                     </Form.Group>
 
-                    <Link to={"/home"}>
-                      <Button variant="btn btn-outline-light me-1">
-                        Back to home
-                      </Button>
+                    <Link to={"/ad"}>
+                      <Button variant="btn btn-outline-light me-1">Back</Button>
                     </Link>
                     <Button
                       variant="btn btn-light"
