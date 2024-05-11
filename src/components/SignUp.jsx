@@ -31,6 +31,9 @@ const SignUp = () => {
     usage: 1,
     password: "",
     birthdate: "",
+    occupation: "",
+    cityOfBirth: "",
+    countryOfBirth: "",
   };
   const [user, setUser] = useState(initialUser);
 
@@ -61,12 +64,14 @@ const SignUp = () => {
           user.firstName !== "" &&
           user.lastName !== "" &&
           user.birthdate !== "" &&
-          user.gender !== 0
+          user.gender !== 0 &&
+          user.cityOfBirth !== "" &&
+          user.countryOfBirth !== ""
         );
       case 2:
         return user.phoneNumber !== "" && user.email !== "";
       case 3:
-        return user.usage !== 0;
+        return user.usage !== 0 && user.occupation !== "";
       case 4:
         return user.password !== "";
       default:
@@ -153,8 +158,8 @@ const SignUp = () => {
                           }}
                         >
                           <option>Select your gender</option>
-                          <option value="1">Male</option>
-                          <option value="2">Female</option>
+                          <option value="MALE">Male</option>
+                          <option value="FEMALE">Female</option>
                         </Form.Select>
                         <Form.Text className="text-white">
                           We ask you to express your biological sex for
@@ -169,6 +174,28 @@ const SignUp = () => {
                             </Link>
                           </span>
                         </Form.Text>
+                      </Form.Group>
+                      <Form.Group className="mb-1" controlId="formCity">
+                        <Form.Label>Your home town</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={user.cityOfBirth}
+                          onChange={(e) => {
+                            handleChange("cityOfBirth", e.target.value);
+                          }}
+                          required
+                        />
+                      </Form.Group>
+                      <Form.Group className="mb-1" controlId="formCountry">
+                        <Form.Label>Your country of origin</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={user.countryOfBirth}
+                          onChange={(e) => {
+                            handleChange("countryOfBirth", e.target.value);
+                          }}
+                          required
+                        />
                       </Form.Group>
 
                       <Link to={"/"}>
@@ -240,7 +267,18 @@ const SignUp = () => {
                   {step === 3 && (
                     <>
                       {/* STEP 3 */}
-                      <Form.Label className="text-white mt-4">
+                      <Form.Group className="mb-2" controlId="formOccupation">
+                        <Form.Label>Enter your current occupation</Form.Label>
+                        <Form.Control
+                          type="text"
+                          value={user.occupation}
+                          onChange={(e) => {
+                            handleChange("occupation", e.target.value);
+                          }}
+                        />
+                      </Form.Group>
+
+                      <Form.Label className="text-white mb-2">
                         How would you like to use MyRommate?
                       </Form.Label>
                       <Form.Select
@@ -252,13 +290,15 @@ const SignUp = () => {
                         className="mb-2"
                       >
                         <option value="">Select usage</option>
-                        <option value="1">
+                        <option value="LOOKING_ROOMMATE">
                           Im looking for a roommate for my property
                         </option>
-                        <option value="2">
+                        <option value="RENTING_APARTMENT">
                           Im renting out a room in my apartment
                         </option>
-                        <option value="3">Im looking for a room</option>
+                        <option value="SEARCH_ROOM">
+                          Im looking for a room
+                        </option>
                       </Form.Select>
                       <Button
                         variant="btn btn-outline-light me-1"

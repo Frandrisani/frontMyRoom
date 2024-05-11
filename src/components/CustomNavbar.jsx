@@ -9,6 +9,7 @@ import {
   PlusCircleDotted,
 } from "react-bootstrap-icons";
 
+// eslint-disable-next-line react/prop-types
 const CustomNavbar = ({ currentPage }) => {
   const [isLgScreen, setIsLgScreen] = useState(false);
 
@@ -74,23 +75,31 @@ const CustomNavbar = ({ currentPage }) => {
                     </div>
                   </Nav.Link>
                   <Nav.Link
-                    href="/new-ad"
+                    href="/ad"
                     style={{
                       pointerEvents:
-                        currentPage === "/new-ad" ? "none" : "auto",
+                        currentPage === "/new-ad" || currentPage === "/ad"
+                          ? "none"
+                          : "auto",
                     }}
                   >
                     <div className="d-flex flex-column align-items-center">
                       <PlusCircleDotted
                         className="ml-4 fs-5 mx-2"
                         style={{
-                          color: currentPage === "/new-ad" ? "grey" : "white",
+                          color:
+                            currentPage === "/new-ad" || currentPage === "/ad"
+                              ? "grey"
+                              : "white",
                         }}
                       />
                       <p
                         className=" f4 fw-bolder"
                         style={{
-                          color: currentPage === "/new-ad" ? "grey" : "white",
+                          color:
+                            currentPage === "/new-ad" || currentPage === "/ad"
+                              ? "grey"
+                              : "white",
                         }}
                       >
                         Create Ad
@@ -109,10 +118,28 @@ const CustomNavbar = ({ currentPage }) => {
                       <p className="text-white f4 fw-bolder">Chat</p>
                     </div>
                   </Nav.Link>
-                  <Nav.Link href="#home">
+                  <Nav.Link
+                    href="/profile"
+                    style={{
+                      pointerEvents:
+                        currentPage === "/profile" ? "none" : "auto",
+                    }}
+                  >
                     <div className="d-flex flex-column align-items-center">
-                      <Person className="ml-4 text-white fs-5 mx-2" />
-                      <p className="text-white f4 fw-bolder">Profile</p>
+                      <Person
+                        className="ml-4 fs-5 mx-2"
+                        style={{
+                          color: currentPage === "/profile" ? "grey" : "white",
+                        }}
+                      />
+                      <p
+                        className=" f4 fw-bolder"
+                        style={{
+                          color: currentPage === "/profile" ? "grey" : "white",
+                        }}
+                      >
+                        Profile
+                      </p>
                     </div>
                   </Nav.Link>
                 </Nav>
@@ -150,16 +177,21 @@ const CustomNavbar = ({ currentPage }) => {
                     />
                   </Nav.Link>
                   <Nav.Link
-                    href="new-ad"
+                    href="/ad"
                     style={{
                       pointerEvents:
-                        currentPage === "/new-ad" ? "none" : "auto",
+                        currentPage === "/new-ad" || currentPage === "/ad"
+                          ? "none"
+                          : "auto",
                     }}
                   >
                     <PlusCircleDotted
                       className="ml-4 fs-2 mx-1"
                       style={{
-                        color: currentPage === "/new-ad" ? "grey" : "white",
+                        color:
+                          currentPage === "/new-ad" || currentPage === "/ad"
+                            ? "grey"
+                            : "white",
                       }}
                     />
                   </Nav.Link>
@@ -169,8 +201,19 @@ const CustomNavbar = ({ currentPage }) => {
                   <Nav.Link href="#link">
                     <ChatLeftDots className="ml-4 text-white fs-2 mx-1" />
                   </Nav.Link>
-                  <Nav.Link href="#link">
-                    <Person className="ml-4 text-white fs-2 ms-1" />
+                  <Nav.Link
+                    href="/Profile"
+                    style={{
+                      pointerEvents:
+                        currentPage === "/profile" ? "none" : "auto",
+                    }}
+                  >
+                    <Person
+                      className="ml-4  fs-2 ms-1"
+                      style={{
+                        color: currentPage === "/profile" ? "grey" : "white",
+                      }}
+                    />
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>
