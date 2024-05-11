@@ -12,7 +12,12 @@ export const LOGIN_UTENTE_SUCCESS = "LOGIN_UTENTE_SUCCESS";
 export const LOGIN_UTENTE_FAILURE = "LOGIN_UTENTE_FAILURE";
 // LOGIN UTENTE
 
-// QUI MANDIAMO UNA POST PER REGISTRARE UN UTENTE
+// INFORMAZIONI UTENTE
+export const FETCH_USER_INFO_SUCCESS = "FETCH_USER_INFO_SUCCESS";
+export const FETCH_USER_INFO_FAILURE = "FETCH_USER_INFO_FAILURE";
+// INFORMAZIONI UTENTE
+
+//* QUI MANDIAMO UNA POST PER REGISTRARE UN UTENTE
 export const registerRequest = (userData) => async (dispatch) => {
   dispatch({ type: REGISTRAZIONE_UTENTE });
   try {
@@ -38,9 +43,9 @@ export const registerRequest = (userData) => async (dispatch) => {
     });
   }
 };
-// QUI MANDIAMO UNA POST PER REGISTRARE UN UTENTE
+//! FINE QUI MANDIAMO UNA POST PER REGISTRARE UN UTENTE
 
-// QUI MANDIAMO UNA POST PER LOGGARE UN UTENTE
+//* QUI MANDIAMO UNA POST PER LOGGARE UN UTENTE
 export const login = (userData) => async (dispatch) => {
   dispatch({ type: LOGIN_UTENTE });
   try {
@@ -70,4 +75,33 @@ export const login = (userData) => async (dispatch) => {
     return false;
   }
 };
-// QUI MANDIAMO UNA POST PER LOGGARE UN UTENTE
+//! FINE QUI MANDIAMO UNA POST PER LOGGARE UN UTENTE
+
+//* QUI MANDIAMO UNA GET PER OTTENERE LE INFORMAZIONI UTENTE
+export const fetchUserInfo = () => async (dispatch) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch("http://localhost:3001/users/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Errore nel recupero delle informazioni dell'utente");
+    }
+    const userData = await response.json();
+    console.log("Utente loggato:", userData);
+    dispatch({
+      type: FETCH_USER_INFO_SUCCESS,
+      payload: userData,
+    });
+  } catch (error) {
+    console.error("Errore nel recupero delle informazioni dell'utente:", error);
+    dispatch({
+      type: FETCH_USER_INFO_FAILURE,
+      payload: error.message,
+    });
+  }
+};
+//! FINE QUI MANDIAMO UNA GET PER OTTENERE LE INFORMAZIONI UTENTE
