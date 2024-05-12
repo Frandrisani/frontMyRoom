@@ -2,15 +2,47 @@ import CustomNavbar from "./CustomNavbar";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../assets/custom/custom.scss";
-import { Col, Container, Row, Button } from "react-bootstrap";
-import { fetchUserInfo } from "../redux/actions/";
+import { Col, Container, Row, Button, Modal } from "react-bootstrap";
+import { fetchUserInfo, deleteUser } from "../redux/actions/";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil } from "react-bootstrap-icons";
+import EditModal from "./EditModal";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState("");
   const userInfo = useSelector((state) => state.userInformation.userInfo);
+
+  const [showBioModal, setShowBioModal] = useState(false);
+  const [showHobbiesModal, setShowHobbiesModal] = useState(false);
+  const [showPreferencesModal, setShowPreferencesModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleEditBio = () => {
+    setShowBioModal(true);
+  };
+
+  const handleEditHobbies = () => {
+    setShowHobbiesModal(true);
+  };
+
+  const handleEditPreferences = () => {
+    setShowPreferencesModal(true);
+  };
+
+  const handleCloseModals = () => {
+    setShowBioModal(false);
+    setShowHobbiesModal(false);
+    setShowPreferencesModal(false);
+  };
+
+  const handleDeleteUser = () => {
+    dispatch(deleteUser());
+    setShowDeleteModal(false);
+    navigate("/");
+  };
 
   const location = useLocation();
 
@@ -53,7 +85,10 @@ const Profile = () => {
                   <div className="mb-2">
                     <h5 className="text-Pulsanti fw-bold d-flex justify-content-between align-items-center">
                       Bio
-                      <Button className="bg-Pulsanti text-white badge rounded-pill">
+                      <Button
+                        className="bg-Pulsanti text-white badge rounded-pill"
+                        onClick={handleEditBio}
+                      >
                         <Pencil className="fs-6 m-0" />
                       </Button>
                     </h5>
@@ -65,7 +100,10 @@ const Profile = () => {
                   <div className="mb-2">
                     <h5 className="text-Pulsanti fw-bold d-flex justify-content-between align-items-center">
                       Hobbies & Interests
-                      <Button className="bg-Pulsanti text-white badge rounded-pill">
+                      <Button
+                        className="bg-Pulsanti text-white badge rounded-pill"
+                        onClick={handleEditHobbies}
+                      >
                         <Pencil className="fs-6 m-0" />
                       </Button>
                     </h5>
@@ -79,7 +117,10 @@ const Profile = () => {
                   <div className="mb-2">
                     <h5 className="text-Pulsanti fw-bold d-flex justify-content-between align-items-center">
                       What would you want in a future roommate?
-                      <Button className="bg-Pulsanti text-white badge rounded-pill">
+                      <Button
+                        className="bg-Pulsanti text-white badge rounded-pill"
+                        onClick={handleEditPreferences}
+                      >
                         <Pencil className="fs-6 m-0" />
                       </Button>
                     </h5>
@@ -174,10 +215,76 @@ const Profile = () => {
                     <Button className="btn-Pulsanti text-white">
                       Edit personal information
                     </Button>
-                    <Button variant="danger">Delete profile</Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => setShowDeleteModal(true)}
+                    >
+                      Delete profile
+                    </Button>
                   </div>
                 </Col>
               </Row>
+              {/* Modale per la modifica della bio */}
+              {showBioModal && (
+                <EditModal
+                  title="Edit Bio"
+                  initialValue={userInfo.bio}
+                  types="bio"
+                  yy
+                  onSave={(newValue) => {
+                    console.log("Nuova bio:", newValue);
+                  }}
+                  onClose={handleCloseModals}
+                />
+              )}
+              {/* Modale per la modifica degli hobby */}
+              {showHobbiesModal && (
+                <EditModal
+                  title="Edit Hobbies"
+                  types="hobbies"
+                  initialValue={userInfo.hobby}
+                  onSave={(newValue) => {
+                    console.log("Nuovi hobbies:", newValue);
+                  }}
+                  onClose={handleCloseModals}
+                />
+              )}
+              {/* Modale per la modifica delle preferenze inquilino */}
+              {showPreferencesModal && (
+                <EditModal
+                  title="Edit preferenze coinquilino"
+                  types="preferences"
+                  initialValue={userInfo.cohabitationPreferences}
+                  onSave={(newValue) => {
+                    console.log("Nuove preferenze:", newValue);
+                  }}
+                  onClose={handleCloseModals}
+                />
+              )}
+              {showDeleteModal && (
+                <Modal
+                  show={showDeleteModal}
+                  onHide={() => setShowDeleteModal(false)}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Delete profile</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    Are you sure you want to delete your profile?
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowDeleteModal(false)}
+                    >
+                      No
+                    </Button>
+                    <Button variant="danger" onClick={() => handleDeleteUser()}>
+                      Yes
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              )}
             </>
           ) : (
             <h2>Loading...</h2>
