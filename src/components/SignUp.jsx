@@ -71,7 +71,7 @@ const SignUp = () => {
       case 2:
         return user.phoneNumber !== "" && user.email !== "";
       case 3:
-        return user.usage !== 0 && user.occupation !== "";
+        return user.usage !== 0;
       case 4:
         return user.password !== "";
       default:
@@ -179,6 +179,7 @@ const SignUp = () => {
                         <Form.Label>Your home town</Form.Label>
                         <Form.Control
                           type="text"
+                          placeholder="Ex: Rome, Milan, New York"
                           value={user.cityOfBirth}
                           onChange={(e) => {
                             handleChange("cityOfBirth", e.target.value);
@@ -186,10 +187,11 @@ const SignUp = () => {
                           required
                         />
                       </Form.Group>
-                      <Form.Group className="mb-1" controlId="formCountry">
+                      <Form.Group className="mb-2" controlId="formCountry">
                         <Form.Label>Your country of origin</Form.Label>
                         <Form.Control
                           type="text"
+                          placeholder="Ex: Italy, USA, UK"
                           value={user.countryOfBirth}
                           onChange={(e) => {
                             handleChange("countryOfBirth", e.target.value);
@@ -267,17 +269,6 @@ const SignUp = () => {
                   {step === 3 && (
                     <>
                       {/* STEP 3 */}
-                      <Form.Group className="mb-2" controlId="formOccupation">
-                        <Form.Label>Enter your current occupation</Form.Label>
-                        <Form.Control
-                          type="text"
-                          value={user.occupation}
-                          onChange={(e) => {
-                            handleChange("occupation", e.target.value);
-                          }}
-                        />
-                      </Form.Group>
-
                       <Form.Label className="text-white mb-2">
                         How would you like to use MyRommate?
                       </Form.Label>
@@ -290,14 +281,14 @@ const SignUp = () => {
                         className="mb-2"
                       >
                         <option value="">Select usage</option>
+                        <option value="SEARCH_ROOM">
+                          Im looking for a room
+                        </option>
                         <option value="LOOKING_ROOMMATE">
                           Im looking for a roommate for my property
                         </option>
                         <option value="RENTING_APARTMENT">
                           Im renting out a room in my apartment
-                        </option>
-                        <option value="SEARCH_ROOM">
-                          Im looking for a room
                         </option>
                       </Form.Select>
                       <Button
