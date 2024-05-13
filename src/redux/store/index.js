@@ -7,6 +7,7 @@ import editBioReducers from "../reducers/editBioReducers";
 import editHobbiesReducers from "../reducers/editHobbiesReducer";
 import editPreferencesReducers from "../reducers/editPreferencesReducer";
 import deleteUserReducers from "../reducers/deleteUserReducers";
+import editAvatarReducers from "../reducers/editAvatarReducers";
 
 const globalReducer = combineReducers({
   registration: registrazioneReducer,
@@ -16,6 +17,7 @@ const globalReducer = combineReducers({
   editHobbies: editHobbiesReducers,
   editPreferences: editPreferencesReducers,
   deleteuser: deleteUserReducers,
+  uploadImage: editAvatarReducers,
 });
 
 const store = configureStore({

@@ -35,6 +35,12 @@ export const EDIT_PREFERENCES_SUCCESS = "EDIT_PREFERENCES_SUCCESS";
 export const EDIT_PREFERENCES_FAILURE = "EDIT_PREFERENCES_FAILURE";
 // EDIT PREFERENCES
 
+// EDIT IMG
+export const UPLOAD_IMAGE_REQUEST = "UPLOAD_IMAGE_REQUEST";
+export const UPLOAD_IMAGE_SUCCESS = "UPLOAD_IMAGE_SUCCESS";
+export const UPLOAD_IMAGE_FAILURE = "UPLOAD_IMAGE_FAILURE";
+// EDIT IMG
+
 // DELETE USER
 export const DELETE_USER_REQUEST = "DELETE_USER_REQUEST";
 export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
@@ -218,6 +224,35 @@ export const editPreferences = (preferences) => async (dispatch) => {
 };
 //*! FINE QUI EDITIAMO LE PREFERENZE SUL COINQUILINO DELL'USER
 
+//* QUI EDITIAMO L'IMMAGINE PROFILO
+export const uploadImage = (image) => async (dispatch) => {
+  dispatch({ type: UPLOAD_IMAGE_REQUEST });
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("avatar", image);
+
+    const response = await fetch(`http://localhost:3001/users/upload`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Error uploading image");
+    }
+
+    const data = await response.json();
+    dispatch({ type: UPLOAD_IMAGE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: UPLOAD_IMAGE_FAILURE, payload: error.message });
+  }
+};
+//! FINE QUI EDITIAMO L'IMMAGINE PROFILO
+
 //* QUI CANCELLIAMO UN USER
 export const deleteUser = () => async (dispatch) => {
   const token = sessionStorage.getItem("token");
@@ -233,6 +268,7 @@ export const deleteUser = () => async (dispatch) => {
     if (!response.ok) {
       throw new Error("Failed to delete user");
     }
+    sessionStorage.clear();
     dispatch({ type: DELETE_USER_SUCCESS, payload: userId });
   } catch (error) {
     dispatch({ type: DELETE_USER_FAILURE, payload: error.message });

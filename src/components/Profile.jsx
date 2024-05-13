@@ -2,8 +2,8 @@ import CustomNavbar from "./CustomNavbar";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../assets/custom/custom.scss";
-import { Col, Container, Row, Button, Modal } from "react-bootstrap";
-import { fetchUserInfo, deleteUser } from "../redux/actions/";
+import { Col, Container, Row, Button, Modal, Form } from "react-bootstrap";
+import { fetchUserInfo, deleteUser, uploadImage } from "../redux/actions/";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil } from "react-bootstrap-icons";
 import EditModal from "./EditModal";
@@ -14,11 +14,13 @@ const Profile = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState("");
   const userInfo = useSelector((state) => state.userInformation.userInfo);
-
   const [showBioModal, setShowBioModal] = useState(false);
   const [showHobbiesModal, setShowHobbiesModal] = useState(false);
   const [showPreferencesModal, setShowPreferencesModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const location = useLocation();
 
   const handleEditBio = () => {
     setShowBioModal(true);
@@ -44,7 +46,18 @@ const Profile = () => {
     navigate("/");
   };
 
-  const location = useLocation();
+  const handleEditImage = () => {
+    setShowImageModal(true);
+  };
+
+  const handleImageChange = (e) => {
+    setSelectedImage(e.target.files[0]);
+  };
+
+  const handleUploadImage = () => {
+    dispatch(uploadImage(selectedImage));
+    setShowImageModal(false);
+  };
 
   useEffect(() => {
     setCurrentPage(location.pathname);
@@ -59,7 +72,9 @@ const Profile = () => {
           {userInfo ? (
             <>
               <h3 className="text-white mb-3 fw-bold">
-                Welcome {userInfo.firstName}, here is your profile
+                Welcome{" "}
+                <span className="text-Pulsanti">{userInfo.firstName}</span>,
+                here is your profile
               </h3>
               <Row className="justify-content-start ">
                 <Col
@@ -76,7 +91,10 @@ const Profile = () => {
                         width="150"
                         height="150"
                       />
-                      <Button className="bg-Pulsanti text-white position-absolute top-0 start-100 translate-middle badge rounded-pill">
+                      <Button
+                        className="bg-Pulsanti text-white position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                        onClick={handleEditImage}
+                      >
                         <Pencil className="fs-6 m-0" />
                       </Button>
                     </div>
@@ -93,7 +111,13 @@ const Profile = () => {
                       </Button>
                     </h5>
                     <p className="mt-0 mb-2 border p-1 rounded border-Pulsanti">
-                      {userInfo.bio ? userInfo.bio : "No bio, add it now!"}
+                      {userInfo.bio ? (
+                        userInfo.bio
+                      ) : (
+                        <p className="p-0 m-0 text-BackgroundAppWelcomePage fw-semibold">
+                          No bio, add it now!
+                        </p>
+                      )}
                     </p>
                   </div>
                   <hr className="bg-Pulsanti border-3" />
@@ -108,9 +132,13 @@ const Profile = () => {
                       </Button>
                     </h5>
                     <p className="mt-0 mb-2 border p-1 rounded border-Pulsanti">
-                      {userInfo.hobby
-                        ? userInfo.hobby
-                        : "No Hobbies & Interests, add them now!"}
+                      {userInfo.hobby ? (
+                        userInfo.hobby
+                      ) : (
+                        <p className="p-0 m-0 text-BackgroundAppWelcomePage fw-semibold">
+                          No Hobbies & Interests, add them now!
+                        </p>
+                      )}
                     </p>
                   </div>
                   <hr className="bg-Pulsanti border-3" />
@@ -125,9 +153,13 @@ const Profile = () => {
                       </Button>
                     </h5>
                     <p className="mt-0 mb-2 border p-1 rounded border-Pulsanti">
-                      {userInfo.cohabitationPreferences
-                        ? userInfo.cohabitationPreferences
-                        : "Please enter your preferences"}
+                      {userInfo.cohabitationPreferences ? (
+                        userInfo.cohabitationPreferences
+                      ) : (
+                        <p className="p-0 m-0 text-BackgroundAppWelcomePage fw-semibold">
+                          Please enter your preferences
+                        </p>
+                      )}
                     </p>
                   </div>
                   <hr className="bg-Pulsanti border-3" />
@@ -154,21 +186,9 @@ const Profile = () => {
                       </span>
                     </p>
                     <p className="my-0 text-Pulsanti fw-semibold">
-                      Zodiac sign:{" "}
-                      <span className="fw-light text-dark">
-                        {userInfo.zodiacSign}
-                      </span>
-                    </p>
-                    <p className="my-0 text-Pulsanti fw-semibold">
                       Gender:{" "}
                       <span className="fw-light text-dark">
                         {userInfo.gender}
-                      </span>
-                    </p>
-                    <p className="my-0 text-Pulsanti fw-semibold">
-                      Occupation:{" "}
-                      <span className="fw-light text-dark">
-                        {userInfo.occupation}
                       </span>
                     </p>
                   </div>
@@ -212,9 +232,6 @@ const Profile = () => {
                   </div>
                   {/* FINE INFORMAZIONI DI CONTATTO */}
                   <div className="d-flex justify-content-between align-items-center">
-                    <Button className="btn-Pulsanti text-white">
-                      Edit personal information
-                    </Button>
                     <Button
                       variant="danger"
                       onClick={() => setShowDeleteModal(true)}
@@ -249,14 +266,13 @@ const Profile = () => {
                   onClose={handleCloseModals}
                 />
               )}
-              {/* Modale per la modifica delle preferenze inquilino */}
               {showPreferencesModal && (
                 <EditModal
-                  title="Edit preferenze coinquilino"
+                  title="Change roommate preferences"
                   types="preferences"
-                  initialValue={userInfo.cohabitationPreferences}
+                  initialValue={userInfo.preference}
                   onSave={(newValue) => {
-                    console.log("Nuove preferenze:", newValue);
+                    console.log("Nuovi hobbies:", newValue);
                   }}
                   onClose={handleCloseModals}
                 />
@@ -281,6 +297,38 @@ const Profile = () => {
                     </Button>
                     <Button variant="danger" onClick={() => handleDeleteUser()}>
                       Yes
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
+              )}
+              {showImageModal && (
+                <Modal
+                  show={showImageModal}
+                  onHide={() => setShowImageModal(false)}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title className="text-Pulsanti fw-semibold">
+                      Upload new profile image
+                    </Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form.Group controlId="formFile" className="mb-3">
+                      <Form.Label>Choose a new profile image</Form.Label>
+                      <Form.Control type="file" onChange={handleImageChange} />
+                    </Form.Group>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      className=" btn-BackgroundAppWelcomePage text-white fw-bold"
+                      onClick={() => setShowImageModal(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      className="btn btn-Pulsanti text-white fw-bold"
+                      onClick={handleUploadImage}
+                    >
+                      Upload
                     </Button>
                   </Modal.Footer>
                 </Modal>
