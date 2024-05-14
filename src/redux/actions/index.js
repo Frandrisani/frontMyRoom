@@ -47,6 +47,34 @@ export const DELETE_USER_SUCCESS = "DELETE_USER_SUCCESS";
 export const DELETE_USER_FAILURE = "DELETE_USER_FAILURE";
 // DELETE USER
 
+// NEW ROOM
+export const NEW_ROOM_REQUEST = "NEW_ROOM_REQUEST";
+export const NEW_ROOM_SUCCESS = "NEW_ROOM_SUCCESS";
+export const NEW_ROOM_FAILURE = "NEW_ROOM_FAILURE";
+// NEW ROOM
+
+// ROOM LIST
+export const ROOM_SUCCESS = "ROOM_SUCCESS";
+export const ROOM_FAILURE = "ROOM_FAILURE";
+// ROOM LIST
+
+// ROOM LIST USER
+export const ROOM_USER_SUCCESS = "ROOM_USER_SUCCESS";
+export const ROOM_USER_FAILURE = "ROOM_USER_FAILURE";
+// ROOM LIST USER
+
+// EDIT IMG ROOM
+export const UPLOAD_IMAGE_ROOM_REQUEST = "UPLOAD_IMAGE_ROOM_REQUEST";
+export const UPLOAD_IMAGE_ROOM_SUCCESS = "UPLOAD_IMAGE_ROOM_SUCCESS";
+export const UPLOAD_IMAGE_ROOM_FAILURE = "UPLOAD_IMAGE_ROOM_FAILURE";
+// EDIT IMG ROOM
+
+// DELETE USER
+export const DELETE_ROOM_REQUEST = "DELETE_ROOM_REQUEST";
+export const DELETE_ROOM_SUCCESS = "DELETE_ROOM_SUCCESS";
+export const DELETE_ROOM_FAILURE = "DELETE_ROOM_FAILURE";
+// DELETE USER
+
 //* QUI MANDIAMO UNA POST PER REGISTRARE UN UTENTE
 export const registerRequest = (userData) => async (dispatch) => {
   dispatch({ type: REGISTRAZIONE_UTENTE });
@@ -275,3 +303,147 @@ export const deleteUser = () => async (dispatch) => {
   }
 };
 //! FINE QUI CANCELLIAMO UN USER
+
+//* QUI MANDIAMO UNA POST PER REGISTRARE UN NUOVO ANNUNCIO
+export const newRoom = (roomData) => async (dispatch) => {
+  const userId = sessionStorage.getItem("userId");
+  dispatch({ type: NEW_ROOM_REQUEST });
+  try {
+    const response = await fetch(
+      `http://localhost:3001/rooms/create/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(roomData),
+      }
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message);
+    }
+    const room = await response.json();
+    dispatch({ type: NEW_ROOM_SUCCESS, payload: room });
+    return room.id;
+  } catch (error) {
+    dispatch({ type: NEW_ROOM_FAILURE, payload: error.message });
+  }
+};
+//! FINE QUI MANDIAMO UNA POST PER REGISTRARE UN NUOVO ANNUNCIO
+
+//* QUI MANDIAMO UNA GET PER OTTENERE LE ROOMS IN HOMEPAGE
+export const fetchRoom = (city) => async (dispatch) => {
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`http://localhost:3001/rooms?city=${city}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Errore nel recupero delle informazioni delle stanze");
+    }
+    const userData = await response.json();
+    console.log("stanze: ", userData);
+    dispatch({
+      type: ROOM_SUCCESS,
+      payload: userData,
+    });
+  } catch (error) {
+    console.error(
+      "Errore nel recupero delle informazioni  delle stanze:",
+      error
+    );
+    dispatch({
+      type: ROOM_FAILURE,
+      payload: error.message,
+    });
+  }
+};
+//! FINE QUI MANDIAMO UNA GET PER OTTENERE LE ROOMS IN HOMEPAGE
+
+//* QUI MANDIAMO UNA GET PER OTTENERE LE ROOMS BY UTENTE
+export const fetchRoomByUser = () => async (dispatch) => {
+  const userId = sessionStorage.getItem("userId");
+  try {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch(`http://localhost:3001/rooms/user/${userId}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Errore nel recupero delle informazioni delle stanze");
+    }
+    const userData = await response.json();
+    console.log("stanze: ", userData);
+    dispatch({
+      type: ROOM_USER_SUCCESS,
+      payload: userData,
+    });
+  } catch (error) {
+    console.error("Errore nel recupero delle informazioni dell'utente:", error);
+    dispatch({
+      type: ROOM_USER_FAILURE,
+      payload: error.message,
+    });
+  }
+};
+//! FINE QUI MANDIAMO UNA GET PER OTTENERE LE ROOMS BY UTENTE
+
+//* QUI EDITIAMO L'IMMAGINE DI UNA STANZA
+export const uploadImageRoom = (roomId, image) => async (dispatch) => {
+  dispatch({ type: UPLOAD_IMAGE_ROOM_REQUEST });
+  try {
+    const token = sessionStorage.getItem("token");
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    const response = await fetch(
+      `http://localhost:3001/rooms/${roomId}/image`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Error uploading image");
+    }
+    const data = await response.json();
+    dispatch({ type: UPLOAD_IMAGE_ROOM_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({ type: UPLOAD_IMAGE_ROOM_FAILURE, payload: error.message });
+  }
+};
+//! FINE QUI EDITIAMO L'IMMAGINE DI UNA STANZA
+
+//* QUI CANCELLIAMO UN ANNUNCIO
+export const deleteRoom = (id) => async (dispatch) => {
+  const token = sessionStorage.getItem("token");
+  dispatch({ type: DELETE_ROOM_REQUEST });
+  try {
+    const response = await fetch(`http://localhost:3001/rooms/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to delete room");
+    }
+    sessionStorage.clear();
+    dispatch({ type: DELETE_ROOM_SUCCESS, payload: id });
+  } catch (error) {
+    dispatch({ type: DELETE_ROOM_FAILURE, payload: error.message });
+  }
+};
+//! FINE QUI CANCELLIAMO UN ANNUNCIO

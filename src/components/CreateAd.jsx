@@ -4,9 +4,16 @@ import { useLocation } from "react-router-dom";
 import { Col, Container, Row, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import "../assets/custom/custom.scss";
+import { newRoom } from "../redux/actions/";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CreateAd = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState("");
+  const [step, setStep] = useState(1);
+  const [roomIda, setRoomIda] = useState(null);
 
   const location = useLocation();
   useEffect(() => {
@@ -23,29 +30,28 @@ const CreateAd = () => {
     roommates: 0,
     wc: 0,
     type: 1,
-    image: "",
   };
+
   const [ad, setAd] = useState(initialAd);
-  const [step, setStep] = useState(1);
 
   const handleChange = (key, value) => {
-    // Se il campo è il file, aggiorna direttamente lo stato
-    if (key === "file") {
-      setAd({
-        ...ad,
-        image: value,
-      });
-    } else {
-      // Altrimenti, aggiorna gli altri campi del modulo
-      setAd({
-        ...ad,
-        [key]: value,
-      });
-    }
+    setAd({
+      ...ad,
+      [key]: value,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(newRoom(ad))
+      .then((id) => {
+        setRoomIda(id);
+        console.log(roomIda);
+        navigate(`/edit-image-room/${id}`); // Utilizza direttamente l'ID restituito dalla Promise
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   const handleNextStep = () => {
@@ -63,12 +69,7 @@ const CreateAd = () => {
       case 2:
         return ad.address !== "" && ad.city !== "" && ad.zipCode !== "";
       case 3:
-        return (
-          ad.roommates !== "" &&
-          ad.wc !== "" &&
-          ad.type !== "" &&
-          ad.image !== ""
-        );
+        return ad.roommates !== 0 && ad.wc !== 0;
       default:
         return false;
     }
@@ -86,15 +87,19 @@ const CreateAd = () => {
                   <>
                     {/* STEP 1 */}
                     <Form.Text className="text-center">
-                      <h5 className="text-center text-white fw-bold mt-4 mb-2">
+                      <h4 className="text-center text-white fw-bold mt-4 mb-2">
                         Do you have a room to publish? Now is the right time to
                         do it
-                      </h5>
+                      </h4>
                     </Form.Text>
-                    <Form.Group className="mb-1" controlId="formTitle">
-                      <Form.Label>Enter the title of the ad</Form.Label>
+                    <Form.Group className="mb-2" controlId="formTitle">
+                      <Form.Label className="fw-semibold">
+                        {" "}
+                        Enter the title of the ad
+                      </Form.Label>
                       <Form.Control
                         type="text"
+                        placeholder="Title"
                         value={ad.title}
                         onChange={(e) => {
                           handleChange("title", e.target.value);
@@ -102,11 +107,14 @@ const CreateAd = () => {
                         required
                       />
                     </Form.Group>
-                    <Form.Group className="mb-1" controlId="formDescription">
-                      <Form.Label>Description</Form.Label>
+                    <Form.Group className="mb-2" controlId="formDescription">
+                      <Form.Label className="fw-semibold">
+                        Description
+                      </Form.Label>
                       <Form.Control
                         as="textarea"
                         type="text"
+                        placeholder="Description"
                         value={ad.description}
                         onChange={(e) => {
                           handleChange("description", e.target.value);
@@ -114,11 +122,12 @@ const CreateAd = () => {
                         required
                       />
                     </Form.Group>
-                    <Form.Group className="mb-1" controlId="formPrice">
-                      <Form.Label>Price</Form.Label>
+                    <Form.Group className="mb-2" controlId="formPrice">
+                      <Form.Label className="fw-semibold">Price</Form.Label>
                       <Form.Control
                         type="text"
                         value={ad.price}
+                        placeholder="Price in €"
                         onChange={(e) => {
                           handleChange("price", e.target.value);
                         }}
@@ -143,10 +152,12 @@ const CreateAd = () => {
                   <>
                     {/* STEP 2 */}
                     <Form.Group className="mb-2" controlId="formAddress">
-                      <Form.Label>Enter room address</Form.Label>
+                      <Form.Label className="fw-semibold">
+                        Enter room address
+                      </Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Via Roma 12"
+                        placeholder="Ex: Via Roma 12"
                         value={ad.address}
                         onChange={(e) => {
                           handleChange("address", e.target.value);
@@ -155,9 +166,12 @@ const CreateAd = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-2" controlId="formCity">
-                      <Form.Label>Enter city</Form.Label>
+                      <Form.Label className="fw-semibold">
+                        Enter city
+                      </Form.Label>
                       <Form.Control
                         type="text"
+                        placeholder="Ex: Milano"
                         value={ad.city}
                         onChange={(e) => {
                           handleChange("city", e.target.value);
@@ -166,9 +180,12 @@ const CreateAd = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-2" controlId="formZipCode">
-                      <Form.Label>Enter Zip Code</Form.Label>
+                      <Form.Label className="fw-semibold">
+                        Enter Zip Code
+                      </Form.Label>
                       <Form.Control
                         type="text"
+                        placeholder="Ex: 20019"
                         value={ad.zipCode}
                         onChange={(e) => {
                           handleChange("zipCode", e.target.value);
@@ -196,7 +213,9 @@ const CreateAd = () => {
                   <>
                     {/* STEP 3 */}
                     <Form.Text className="text-start text-white">
-                      <h6>Indicate to whom this advertisement is addressed</h6>
+                      <h6 className="fw-semibold">
+                        Indicate to whom this advertisement is addressed
+                      </h6>
                     </Form.Text>
                     <Form.Select
                       aria-label="Indicate to whom this advertisement is addressed"
@@ -204,7 +223,7 @@ const CreateAd = () => {
                       onChange={(e) => {
                         handleChange("roommates", e.target.value);
                       }}
-                      className="mb-1"
+                      className="mb-2"
                     >
                       <option value="1">
                         Mixed house, room for all genders
@@ -213,12 +232,13 @@ const CreateAd = () => {
                       <option value="3">Boys-only house</option>
                     </Form.Select>
 
-                    <Form.Group className="mb-1" controlId="formWc">
-                      <Form.Label>
+                    <Form.Group className="mb-2" controlId="formWc">
+                      <Form.Label className="fw-semibold">
                         How many toilets are in the house?
                       </Form.Label>
                       <Form.Control
                         type="number"
+                        placeholder="Number of toilets"
                         value={ad.wc}
                         onChange={(e) => {
                           handleChange("wc", e.target.value);
@@ -227,23 +247,19 @@ const CreateAd = () => {
                       />
                     </Form.Group>
 
-                    <Form.Group className="mb-1" controlId="formRoommates">
-                      <Form.Label>
+                    <Form.Group className="mb-2" controlId="formRoommates">
+                      <Form.Label className="fw-semibold">
                         How many housemates does the flat host?
                       </Form.Label>
                       <Form.Control
                         type="number"
+                        placeholder="Number of housemates"
                         value={ad.roommates}
                         onChange={(e) => {
                           handleChange("roommates", e.target.value);
                         }}
                         required
                       />
-                    </Form.Group>
-
-                    <Form.Group className="mb-1" controlId="formImage">
-                      <Form.Label>Upload an image</Form.Label>
-                      <Form.Control type="file" onChange={handleChange} />
                     </Form.Group>
 
                     <Button
@@ -257,7 +273,7 @@ const CreateAd = () => {
                       type="submit"
                       disabled={!isValidStep(step)}
                     >
-                      Sign Up
+                      Publish now
                     </Button>
                   </>
                 )}

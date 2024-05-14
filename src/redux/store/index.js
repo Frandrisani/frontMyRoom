@@ -8,6 +8,11 @@ import editHobbiesReducers from "../reducers/editHobbiesReducer";
 import editPreferencesReducers from "../reducers/editPreferencesReducer";
 import deleteUserReducers from "../reducers/deleteUserReducers";
 import editAvatarReducers from "../reducers/editAvatarReducers";
+import newRoomReducers from "../reducers/newRoomReducers";
+import editImageRoom from "../reducers/editImageRoom";
+import roomsByUserReducers from "../reducers/roomsByUserReducers";
+import deleteRoomReducers from "../reducers/deleteRoomReducers";
+import listRoomsReducers from "../reducers/listRoomsReducers";
 
 const globalReducer = combineReducers({
   registration: registrazioneReducer,
@@ -18,6 +23,11 @@ const globalReducer = combineReducers({
   editPreferences: editPreferencesReducers,
   deleteuser: deleteUserReducers,
   uploadImage: editAvatarReducers,
+  newRoom: newRoomReducers,
+  editImageRoom: editImageRoom,
+  roomsByUser: roomsByUserReducers,
+  deleteRoom: deleteRoomReducers,
+  listRooms: listRoomsReducers,
 });
 
 const store = configureStore({
