@@ -13,6 +13,11 @@ import editImageRoom from "../reducers/editImageRoom";
 import roomsByUserReducers from "../reducers/roomsByUserReducers";
 import deleteRoomReducers from "../reducers/deleteRoomReducers";
 import listRoomsReducers from "../reducers/listRoomsReducers";
+import editRoomReducers from "../reducers/editRoomReducers";
+import singleRoomReducers from "../reducers/singleRoomReducers";
+import saveRoomPrefeReducer from "../reducers/saveRoomPrefeReducer";
+import deleteRoomPrefeReducers from "../reducers/deleteRoomPrefeReducers";
+import listRoomPrefeReducers from "../reducers/listRoomPrefeReducers";
 
 const globalReducer = combineReducers({
   registration: registrazioneReducer,
@@ -28,6 +33,11 @@ const globalReducer = combineReducers({
   roomsByUser: roomsByUserReducers,
   deleteRoom: deleteRoomReducers,
   listRooms: listRoomsReducers,
+  editRoom: editRoomReducers,
+  singleRoom: singleRoomReducers,
+  saveRoomPrefe: saveRoomPrefeReducer,
+  deleteRoomPrefe: deleteRoomPrefeReducers,
+  listRoomPrefe: listRoomPrefeReducers,
 });
 
 const store = configureStore({
