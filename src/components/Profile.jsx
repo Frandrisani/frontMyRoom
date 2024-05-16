@@ -33,6 +33,10 @@ const Profile = () => {
   const handleEditPreferences = () => {
     setShowPreferencesModal(true);
   };
+  const handleLogOut = () => {
+    sessionStorage.clear();
+    navigate("/");
+  };
 
   const handleCloseModals = () => {
     setShowBioModal(false);
@@ -55,7 +59,13 @@ const Profile = () => {
   };
 
   const handleUploadImage = () => {
-    dispatch(uploadImage(selectedImage));
+    dispatch(uploadImage(selectedImage))
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
     setShowImageModal(false);
   };
 
@@ -232,6 +242,13 @@ const Profile = () => {
                   </div>
                   {/* FINE INFORMAZIONI DI CONTATTO */}
                   <div className="d-flex justify-content-between align-items-center">
+                    <Button
+                      variant="Pulsanti"
+                      className="text-white"
+                      onClick={() => handleLogOut()}
+                    >
+                      Log Out
+                    </Button>
                     <Button
                       variant="danger"
                       onClick={() => setShowDeleteModal(true)}

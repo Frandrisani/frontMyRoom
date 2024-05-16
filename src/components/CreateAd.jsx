@@ -219,17 +219,17 @@ const CreateAd = () => {
                     </Form.Text>
                     <Form.Select
                       aria-label="Indicate to whom this advertisement is addressed"
-                      value={ad.roommates}
+                      value={ad.type}
                       onChange={(e) => {
-                        handleChange("roommates", e.target.value);
+                        handleChange("type", e.target.value);
                       }}
                       className="mb-2"
                     >
-                      <option value="1">
+                      <option value="MIXED">
                         Mixed house, room for all genders
                       </option>
-                      <option value="2">Girls-only home</option>
-                      <option value="3">Boys-only house</option>
+                      <option value="WOMAN_ONLY">Girls-only home</option>
+                      <option value="MAN_ONLY">Boys-only house</option>
                     </Form.Select>
 
                     <Form.Group className="mb-2" controlId="formWc">

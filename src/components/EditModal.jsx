@@ -22,15 +22,33 @@ const EditModal = ({ title, initialValue, types, onClose }) => {
   const handleSave = () => {
     switch (types) {
       case "bio":
-        dispatch(editBio(value));
+        dispatch(editBio(value))
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
         setShouldRefetch(true);
         break;
       case "hobbies":
-        dispatch(editHobbies(value));
+        dispatch(editHobbies(value))
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error("Error", error);
+          });
         setShouldRefetch(true);
         break;
       case "preferences":
-        dispatch(editPreferences(value));
+        dispatch(editPreferences(value))
+          .then(() => {
+            window.location.reload();
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
         setShouldRefetch(true);
         break;
       default:

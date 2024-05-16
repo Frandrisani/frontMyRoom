@@ -128,7 +128,11 @@ const WelcomeApp = () => {
                 <Button variant="Pulsanti" type="submit">
                   Go
                 </Button>
-                {error && <p>{error}</p>}
+                {error && (
+                  <p className="text-danger fw-bold mt-2 text-center">
+                    {error}
+                  </p>
+                )}
               </Form>
             </div>
           )}

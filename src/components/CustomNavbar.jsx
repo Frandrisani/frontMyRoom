@@ -106,10 +106,27 @@ const CustomNavbar = ({ currentPage }) => {
                       </p>
                     </div>
                   </Nav.Link>
-                  <Nav.Link href="#home">
+                  <Nav.Link
+                    href="/fav"
+                    style={{
+                      pointerEvents: currentPage === "/fav" ? "none" : "auto",
+                    }}
+                  >
                     <div className="d-flex flex-column align-items-center">
-                      <Heart className="ml-4 text-white fs-5 mx-2" />
-                      <p className="text-white f4 fw-bolder">Saved Rooms</p>
+                      <Heart
+                        className="ml-4 fs-5 mx-2"
+                        style={{
+                          color: currentPage === "/fav" ? "grey" : "white",
+                        }}
+                      />
+                      <p
+                        className=" f4 fw-bolder"
+                        style={{
+                          color: currentPage === "/fav" ? "grey" : "white",
+                        }}
+                      >
+                        Saved Rooms
+                      </p>
                     </div>
                   </Nav.Link>
                   <Nav.Link href="#home">
@@ -195,8 +212,18 @@ const CustomNavbar = ({ currentPage }) => {
                       }}
                     />
                   </Nav.Link>
-                  <Nav.Link href="#link">
-                    <Heart className="ml-4 text-white fs-2 mx-1" />
+                  <Nav.Link
+                    href="/fav"
+                    style={{
+                      pointerEvents: currentPage === "/fav" ? "none" : "auto",
+                    }}
+                  >
+                    <Heart
+                      className="ml-4  fs-2 mx-1"
+                      style={{
+                        color: currentPage === "/fav" ? "grey" : "white",
+                      }}
+                    />
                   </Nav.Link>
                   <Nav.Link href="#link">
                     <ChatLeftDots className="ml-4 text-white fs-2 mx-1" />
