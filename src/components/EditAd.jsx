@@ -27,7 +27,7 @@ const EditAd = () => {
     address: room ? room.address : "",
     city: room ? room.city : "",
     zipCode: room ? room.zipCode : "",
-    roommates: room ? room.roommates : 0,
+    bedrooms: room ? room.bedrooms : 0,
     wc: room ? room.wc : 0,
     type: room ? room.type : 1,
   };
@@ -55,7 +55,7 @@ const EditAd = () => {
         address: room.address,
         city: room.city,
         zipCode: room.zipCode,
-        roommates: room.roommates,
+        bedrooms: room.bedrooms,
         wc: room.wc,
         type: room.type,
       });
@@ -187,14 +187,14 @@ const EditAd = () => {
                   </Form.Group>
                   <Form.Group className="mb-2" controlId="formRoommates">
                     <Form.Label className="fw-semibold">
-                      How many housemates does the flat host?
+                      How many bedrooms are there?
                     </Form.Label>
                     <Form.Control
                       type="number"
                       placeholder="Number of housemates"
-                      value={ad.roommates}
+                      value={ad.bedrooms}
                       onChange={(e) => {
-                        handleChange("roommates", e.target.value);
+                        handleChange("bedrooms", e.target.value);
                       }}
                       required
                     />

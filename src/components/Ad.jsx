@@ -80,7 +80,7 @@ const Ad = () => {
               xl={6}
               className="offset-md-3 bg-Pulsanti rounded-3"
             >
-              <h3 className="text-white fw-bold text-center mt-3 mb-0">
+              <h3 className="text-white fw-bold text-center mt-3 mb-2">
                 Your ads
               </h3>
               {isLoading ? (

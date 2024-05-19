@@ -42,7 +42,7 @@ const WelcomeApp = () => {
       fluid
       className="bg-BackgroundAppWelcomePage d-flex flex-column justify-content-center align-items-center p-5"
     >
-      <Row className="d-flex justify-content-center align-items-center">
+      <Row className="d-flex flex-column justify-content-center align-items-center">
         <Col className="col-3 d-flex justify-content-center align-items-center">
           <img
             src="/public/Logo.png"
@@ -50,9 +50,11 @@ const WelcomeApp = () => {
             className="img-fluid mb-3"
           />
         </Col>
-        <Col className="col-9 d-flex flex-column justify-content-center align-items-center">
-          <h1 className="fs-1 text-white fw-bold">Welcome to MyRoommate</h1>
-          <p className="text-white fw-semibold">
+        <Col className="d-flex flex-column justify-content-center align-items-center">
+          <h1 className="fs-1 text-center text-white fw-bold">
+            Welcome to <span className="text-Pulsanti">MyRoommate</span>
+          </h1>
+          <p className="text-white fw-semibold text-center">
             The only app with which you search for houses by roommates
           </p>
         </Col>
@@ -61,37 +63,43 @@ const WelcomeApp = () => {
         <Col className="col-12 d-flex flex-column justify-content-center align-items-center">
           {!showLogin ? (
             <div className="d-flex justify-content-center align-items-center flex-column mt-2 mb-2 bg-light shadow-lg px-4 pt-2 pb-2 mb-2 bg-body-tertiary rounded-4 mt-0 w-100">
-              <p className="text-BackgroundAppWelcomePage fs-5 fw-bold">
+              <p className="text-BackgroundAppWelcomePage text-center fs-5 fw-bold lh-sm">
                 Hurry up! Your new roommates are waiting for you
               </p>
               <Button
                 variant="outline-BackgroundAppWelcomePage"
-                className="btn-lg m-1"
+                className="btn-lg m-1 shadow text-AppWelcomePage fw-semibold"
                 onClick={handleClick}
               >
                 Login
               </Button>
               <p className="text-BackgroundAppWelcomePage">Or</p>
               <Link to="/signup">
-                <Button variant="Pulsanti" className="btn-lg mb-3">
+                <Button
+                  variant="Pulsanti"
+                  className="btn-lg mb-3 text-white fw-semibold shadow"
+                >
                   Sign up
                 </Button>
               </Link>
-              <p className="mb-0 text-BackgroundAppWelcomePage">
+              <p className="mb-0 text-BackgroundAppWelcomePage lh-1">
                 By registering or logging in you accept our{" "}
                 <Link to="/terms-and-conditions" className="no-decoration">
                   terms and conditions of use
                 </Link>
               </p>
-              <p className="mb-0 text-BackgroundAppWelcomePage">
-                For assistance please email xxx@myroommate.com
+              <p className="mb-0 text-BackgroundAppWelcomePage mt-1 lh-1">
+                For assistance please email{" "}
+                <span className="text-Pulsanti fw-bold sh">
+                  help@myroommate.com
+                </span>
               </p>
             </div>
           ) : (
             <div className="d-flex justify-content-center align-items-center flex-column mt-2 mb-2 bg-light shadow-lg px-4 pt-2 pb-2 mb-2 bg-body-tertiary rounded-4 mt-0 w-100">
               <Button
                 variant=" btn-outline-Pulsanti "
-                className="btn-lg mb-3"
+                className="btn-lg mb-3 fw-semibold shadow"
                 onClick={handleClick}
               >
                 Back
@@ -125,7 +133,11 @@ const WelcomeApp = () => {
                   />
                 </Form.Group>
 
-                <Button variant="Pulsanti" type="submit">
+                <Button
+                  variant="Pulsanti"
+                  type="submit"
+                  className="text-white fw-semibold shadow"
+                >
                   Go
                 </Button>
                 {error && (

@@ -26,6 +26,9 @@ const Favorites = () => {
     <>
       <CustomNavbar currentPage={currentPage} />
       <div className="favorites-container">
+        <h5 className="text-center my-2 fw-bold fs-1 text-Pulsanti px-3">
+          Here are your favourite rooms
+        </h5>
         {isLoading ? (
           <p>aaa</p>
         ) : isError ? (

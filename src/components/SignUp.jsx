@@ -80,8 +80,8 @@ const SignUp = () => {
   };
   return (
     <>
-      <div className="container-fluid bg-BackgroundAppWelcomePage d-flex flex-column justify-content-center align-items-center p-5 vh-100">
-        <Container className="bg-BackgroundAppWelcomePage container-fluid ">
+      <div className=" bg-BackgroundAppWelcomePage d-flex flex-column justify-content-center align-items-center p-5 ">
+        <Container className="bg-BackgroundAppWelcomePage">
           <Row>
             <Col md={6} className="offset-md-3">
               <div className="d-flex align-items-center">

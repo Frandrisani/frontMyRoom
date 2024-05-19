@@ -77,7 +77,7 @@ const Profile = () => {
   return (
     <>
       <CustomNavbar currentPage={currentPage} />
-      <div className="container-fluid bg-BackgroundAppWelcomePage d-flex flex-column justify-content-start align-items-center p-5 vh-100">
+      <div className="container-fluid bg-BackgroundAppWelcomePage d-flex flex-column justify-content-start align-items-center p-2 vh-100">
         <Container className="bg-BackgroundAppWelcomePage container-fluid">
           {userInfo ? (
             <>
@@ -89,7 +89,7 @@ const Profile = () => {
               <Row className="justify-content-start ">
                 <Col
                   md={12}
-                  className="bg-white rounded-3 shadow p-4 "
+                  className="bg-white rounded-3 shadow pt-2 pb-2 ps-1 pe-1"
                   style={{ maxHeight: "70vh", overflowY: "auto" }}
                 >
                   <div className="d-flex justify-content-center mb-4">
@@ -98,8 +98,8 @@ const Profile = () => {
                         src={userInfo.avatar}
                         alt="profile picture"
                         className="shadow-lg rounded-circle border border-2 border-Pulsanti mb-1"
-                        width="150"
-                        height="150"
+                        width="200"
+                        height="200"
                       />
                       <Button
                         className="bg-Pulsanti text-white position-absolute top-0 start-100 translate-middle badge rounded-pill"
