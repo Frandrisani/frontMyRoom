@@ -17,6 +17,12 @@ export const FETCH_USER_INFO_SUCCESS = "FETCH_USER_INFO_SUCCESS";
 export const FETCH_USER_INFO_FAILURE = "FETCH_USER_INFO_FAILURE";
 // INFORMAZIONI UTENTE
 
+//CERCHIAMO USER VIA EMAIL
+export const SEARCH_USER_REQUEST = "SEARCH_USER_REQUEST";
+export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
+export const SEARCH_USER_FAILURE = "SEARCH_USER_FAILURE";
+//CERCHIAMO USER VIA EMAIL
+
 // EDIT BIO
 export const EDIT_BIO = "EDIT_BIO";
 export const EDIT_BIO_SUCCESS = "EDIT_BIO_SUCCESS";
@@ -104,6 +110,24 @@ export const DELETE_ROOM_REQUEST = "DELETE_ROOM_REQUEST";
 export const DELETE_ROOM_SUCCESS = "DELETE_ROOM_SUCCESS";
 export const DELETE_ROOM_FAILURE = "DELETE_ROOM_FAILURE";
 // DELETE USER
+
+// SALVA ROOMMATE
+export const SAVE_ROOMMATE_REQUEST = "SAVE_ROOMMATE_REQUEST";
+export const SAVE_ROOMMATE_SUCCESS = "SAVE_ROOMMATE_SUCCESS";
+export const SAVE_ROOMMATE_FAILURE = "SAVE_ROOM_PREFE_FAILURE";
+// SALVA ROOMMATE
+
+// LISTA ROOMMATE
+export const LIST_ROOMMATE_REQUEST = "LIST_ROOMMATE_REQUEST";
+export const LIST_ROOMMATE_SUCCESS = "LIST_ROOMMATE_SUCCESS";
+export const LIST_ROOMMATE_FAILURE = "LIST_ROOMMATE_FAILURE";
+// LISTA ROOMMATE
+
+// RIMUOVI ROOMMATE
+export const REMOVE_ROOMMATE_REQUEST = "REMOVE_ROOMMATE_REQUEST";
+export const REMOVE_ROOMMATE_SUCCESS = "REMOVE_ROOMMATE_SUCCESS";
+export const REMOVE_ROOMMATE_FAILURE = "REMOVE_ROOMMATE_FAILURE";
+// RIMUOVI ROOMMATE
 
 //* QUI MANDIAMO UNA POST PER REGISTRARE UN UTENTE
 export const registerRequest = (userData) => async (dispatch) => {
@@ -197,6 +221,32 @@ export const fetchUserInfo = () => async (dispatch) => {
   }
 };
 //! FINE QUI MANDIAMO UNA GET PER OTTENERE LE INFORMAZIONI UTENTE
+
+//* QUI CERCHIAMO UN USER VIA EMAIL
+export const searchUser = (email) => async (dispatch) => {
+  const token = sessionStorage.getItem("token");
+  dispatch({ type: SEARCH_USER_REQUEST });
+  try {
+    const response = await fetch(`http://localhost:3001/users/${email}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Errore durante la ricerca dell'utente");
+    }
+
+    const user = await response.json();
+    dispatch({ type: SEARCH_USER_SUCCESS, payload: user });
+    return user; // Assicurati di restituire l'utente trovato
+  } catch (error) {
+    dispatch({ type: SEARCH_USER_FAILURE, payload: error.message });
+    return null; // Assicurati di restituire null in caso di errore
+  }
+};
+//! FINE QUI CERCHIAMO UN USER VIA EMAIL
 
 //* QUI EDITIAMO LA BIO DELL'USER
 export const editBio = (bio) => async (dispatch) => {
@@ -639,3 +689,105 @@ export const fetchRoom = (city) => async (dispatch) => {
   }
 };
 //! FINE QUI MANDIAMO UNA GET PER OTTENERE LE ROOMS IN HOMEPAGE
+
+// --- ROOMMATES ----------------- ROOMMATES ------------------- ROOMMATES ------------------ ROOMMATES -----------------
+
+//* QUI ASSOCIAMO UN USER AD UNA STANZA
+export const saveRoommate = (UserEmail, roomId) => async (dispatch) => {
+  const token = sessionStorage.getItem("token");
+  dispatch({ type: SAVE_ROOMMATE_REQUEST });
+  try {
+    const response = await fetch(
+      `http://localhost:3001/roommates/add?userEmail=${UserEmail}&roomId=${roomId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Errore durante il salvataggio");
+    }
+    dispatch({
+      type: SAVE_ROOMMATE_SUCCESS,
+      payload: true,
+    });
+    return true;
+  } catch (error) {
+    console.error("Errore durante il salvataggio:", error);
+    dispatch({
+      type: SAVE_ROOMMATE_FAILURE,
+      payload: error.message,
+    });
+    return false;
+  }
+};
+//! FINE QUI ASSOCIAMO UN USER AD UNA STANZA
+
+//* QUI ABBIAMO LA LISTA DEI ROOMMATE
+export const listRoommate = (roomId) => async (dispatch) => {
+  const token = sessionStorage.getItem("token");
+  dispatch({ type: LIST_ROOMMATE_REQUEST });
+  try {
+    const response = await fetch(
+      `http://localhost:3001/roommates/room/${roomId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Errore durante il salvataggio");
+    }
+    const room = await response.json();
+    dispatch({
+      type: LIST_ROOMMATE_SUCCESS,
+      payload: room,
+    });
+    return true;
+  } catch (error) {
+    console.error("Errore durante il salvataggio:", error);
+    dispatch({
+      type: LIST_ROOMMATE_FAILURE,
+      payload: error.message,
+    });
+    return false;
+  }
+};
+//! FINE QUI ABBIAMO LA LISTA DEI ROOMMATE
+
+//* QUI ELIMINIAMO UN ROOMMATE
+export const deleteRoommate = (UserEmail, roomId) => async (dispatch) => {
+  const token = sessionStorage.getItem("token");
+  dispatch({ type: REMOVE_ROOM_PREFE_REQUEST });
+  try {
+    const response = await fetch(
+      `http://localhost:3001/roommates/remove?userEmail=${UserEmail}&roomId=${roomId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Errore durante il salvataggio");
+    }
+    dispatch({
+      type: REMOVE_ROOMMATE_SUCCESS,
+      payload: true,
+    });
+    return console.log("eliminato");
+  } catch (error) {
+    console.error("Errore durante il salvataggio:", error);
+    dispatch({
+      type: REMOVE_ROOMMATE_FAILURE,
+      payload: error.message,
+    });
+    return false;
+  }
+};
+//! FINE QUI ELIMINIAMO UN ROOMMATE

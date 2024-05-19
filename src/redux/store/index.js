@@ -18,6 +18,10 @@ import singleRoomReducers from "../reducers/singleRoomReducers";
 import saveRoomPrefeReducer from "../reducers/saveRoomPrefeReducer";
 import deleteRoomPrefeReducers from "../reducers/deleteRoomPrefeReducers";
 import listRoomPrefeReducers from "../reducers/listRoomPrefeReducers";
+import saveRoommateReducer from "../reducers/saveRoommateReducer";
+import listRoommateReducer from "../reducers/listRoommateReducer";
+import deleteRoommateReducer from "../reducers/deleteRoommateReducer";
+import { UserByEmailReducer } from "../reducers/UserByEmailReducer";
 
 const globalReducer = combineReducers({
   registration: registrazioneReducer,
@@ -38,6 +42,10 @@ const globalReducer = combineReducers({
   saveRoomPrefe: saveRoomPrefeReducer,
   deleteRoomPrefe: deleteRoomPrefeReducers,
   listRoomPrefe: listRoomPrefeReducers,
+  saveRoommate: saveRoommateReducer,
+  listRoommate: listRoommateReducer,
+  deleteRoommate: deleteRoommateReducer,
+  userByEmail: UserByEmailReducer,
 });
 
 const store = configureStore({
