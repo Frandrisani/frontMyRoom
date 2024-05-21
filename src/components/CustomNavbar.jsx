@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "../assets/custom/custom.scss";
-import {
-  Heart,
-  Search,
-  Person,
-  ChatLeftDots,
-  PlusCircleDotted,
-} from "react-bootstrap-icons";
+import { Heart, Search, Person, PlusCircleDotted } from "react-bootstrap-icons";
 
 // eslint-disable-next-line react/prop-types
 const CustomNavbar = ({ currentPage }) => {
@@ -129,12 +123,6 @@ const CustomNavbar = ({ currentPage }) => {
                       </p>
                     </div>
                   </Nav.Link>
-                  <Nav.Link href="#home">
-                    <div className="d-flex flex-column align-items-center">
-                      <ChatLeftDots className="ml-4 text-white fs-5 mx-2" />
-                      <p className="text-white f4 fw-bolder">Chat</p>
-                    </div>
-                  </Nav.Link>
                   <Nav.Link
                     href="/profile"
                     style={{
@@ -225,9 +213,7 @@ const CustomNavbar = ({ currentPage }) => {
                       }}
                     />
                   </Nav.Link>
-                  <Nav.Link href="#link">
-                    <ChatLeftDots className="ml-4 text-white fs-2 mx-1" />
-                  </Nav.Link>
+
                   <Nav.Link
                     href="/Profile"
                     style={{

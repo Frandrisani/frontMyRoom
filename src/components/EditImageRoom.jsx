@@ -48,10 +48,16 @@ const EditImageRoom = () => {
                     What do you say, let&apos;s show how beautiful your room is?
                   </h4>
                 </Form.Text>
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>Choose a new profile image</Form.Label>
+                <Form.Group controlId="formFile" className="mb-0">
+                  <Form.Label>Choose a room image</Form.Label>
                   <Form.Control type="file" onChange={handleImageChange} />
                 </Form.Group>
+                <Form.Text className="text-center">
+                  <p className="text-start text-white mt-1 mb-3">
+                    Suggestions: Try to take the whole room, showing the bed,
+                    any furniture provided, etc.
+                  </p>
+                </Form.Text>
                 <Link to={"/ad"}>
                   <Button variant="btn btn-outline-light me-1">Exit</Button>
                 </Link>

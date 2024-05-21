@@ -82,12 +82,14 @@ const EditAd = () => {
       <div className="container-fluid bg-BackgroundAppWelcomePage d-flex flex-column justify-content-start align-items-center p-5">
         <Container className="bg-BackgroundAppWelcomePage container-fluid">
           {isSaved ? (
-            <div>
-              <h3 className="fw-bold text-white">
+            <div className="vh-100 d-flex flex-column justify-content-start align-items-center">
+              <h3 className="fw-bold text-white text-center mb-1">
                 Ad successfully edited! Go back to your ad
               </h3>
               <Link to="/ad">
-                <Button variant="Pulsanti">Back to Ads</Button>
+                <Button variant="Pulsanti" className="text-white">
+                  Back to Ads
+                </Button>
               </Link>
             </div>
           ) : (

@@ -2,7 +2,16 @@ import CustomNavbar from "./CustomNavbar";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "../assets/custom/custom.scss";
-import { Col, Container, Row, Button, Modal, Form } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Button,
+  Modal,
+  Form,
+  Spinner,
+  Dropdown,
+} from "react-bootstrap";
 import { fetchUserInfo, deleteUser, uploadImage } from "../redux/actions/";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil } from "react-bootstrap-icons";
@@ -241,20 +250,48 @@ const Profile = () => {
                     </p>
                   </div>
                   {/* FINE INFORMAZIONI DI CONTATTO */}
-                  <div className="d-flex justify-content-between align-items-center">
-                    <Button
-                      variant="Pulsanti"
-                      className="text-white"
-                      onClick={() => handleLogOut()}
-                    >
-                      Log Out
-                    </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => setShowDeleteModal(true)}
-                    >
-                      Delete profile
-                    </Button>
+                  <div className="d-flex justify-content-end align-items-center">
+                    <Dropdown data-bs-theme="light">
+                      <Dropdown.Toggle
+                        id="dropdown-button-dark-example1"
+                        variant="Pulsanti"
+                        className="text-white"
+                      >
+                        Settings and more
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item>
+                          <Button
+                            variant="Pulsanti"
+                            className="text-white"
+                            onClick={() => handleLogOut()}
+                          >
+                            Log Out
+                          </Button>
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                          <Button
+                            variant="danger"
+                            onClick={() => setShowDeleteModal(true)}
+                          >
+                            Delete profile
+                          </Button>
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item href="#/action-4">
+                          Terms and Conditions
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#/action-4">
+                          Privacy and Cookies
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#/action-4">
+                          MyRommate Policies
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#/action-4">
+                          About MyRommate
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </div>
                 </Col>
               </Row>
@@ -352,7 +389,14 @@ const Profile = () => {
               )}
             </>
           ) : (
-            <h2>Loading...</h2>
+            <div className="text-center mt-4">
+              <h1 className="text-white">Loading</h1>
+              <Spinner
+                animation="grow"
+                className="text-center"
+                variant="light"
+              />
+            </div>
           )}
         </Container>
       </div>

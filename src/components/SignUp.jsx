@@ -94,19 +94,26 @@ const SignUp = () => {
               </div>
 
               {registrationSuccess ? (
-                <Card className="text-center mt-5">
-                  <Card.Body className="p-5">
-                    <Card.Title>Registration successful!</Card.Title>
-                    <Card.Text>
-                      Now you can log in and start using MyRommate.
-                    </Card.Text>
-                    <Link to={"/"}>
-                      <Button variant="Pulsanti" className="text-white">
-                        Login
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
+                <div className="vh-100">
+                  <Card className="text-center mt-5">
+                    <Card.Body className="p-5">
+                      <Card.Title className="text-BackgroundAppWelcomePage fw-bold">
+                        Registration successful!
+                      </Card.Title>
+                      <Card.Text>
+                        Now you can log in and start using MyRommate.
+                      </Card.Text>
+                      <Link to={"/"}>
+                        <Button
+                          variant="Pulsanti"
+                          className="text-white shadow-lg mt-1"
+                        >
+                          Login
+                        </Button>
+                      </Link>
+                    </Card.Body>
+                  </Card>
+                </div>
               ) : (
                 <Form className="text-white mt-4" onSubmit={handleSubmit}>
                   {step === 1 && (
@@ -176,10 +183,10 @@ const SignUp = () => {
                         </Form.Text>
                       </Form.Group>
                       <Form.Group className="mb-1" controlId="formCity">
-                        <Form.Label>Your home town</Form.Label>
+                        <Form.Label>City of birth</Form.Label>
                         <Form.Control
                           type="text"
-                          placeholder="Ex: Rome, Milan, New York"
+                          placeholder="Ex: Rome"
                           value={user.cityOfBirth}
                           onChange={(e) => {
                             handleChange("cityOfBirth", e.target.value);
@@ -191,7 +198,7 @@ const SignUp = () => {
                         <Form.Label>Your country of origin</Form.Label>
                         <Form.Control
                           type="text"
-                          placeholder="Ex: Italy, USA, UK"
+                          placeholder="Ex: Italy"
                           value={user.countryOfBirth}
                           onChange={(e) => {
                             handleChange("countryOfBirth", e.target.value);
@@ -218,125 +225,138 @@ const SignUp = () => {
                   {step === 2 && (
                     <>
                       {/* STEP 2 */}
-                      <Form.Group
-                        className="mb-2"
-                        controlId="formBasicPhoneNumber"
-                      >
-                        <Form.Label>Enter your mobile phone number</Form.Label>
-                        <Form.Control
-                          type="tel"
-                          placeholder="+393212345678"
-                          value={user.phoneNumber}
-                          onChange={(e) => {
-                            handleChange("phoneNumber", e.target.value);
-                          }}
-                        />
-                      </Form.Group>
+                      <div className="vh-100">
+                        <Form.Group
+                          className="mb-2"
+                          controlId="formBasicPhoneNumber"
+                        >
+                          <Form.Label>
+                            Enter your mobile phone number
+                          </Form.Label>
+                          <Form.Control
+                            type="tel"
+                            placeholder="3212345678"
+                            value={user.phoneNumber}
+                            onChange={(e) => {
+                              handleChange("phoneNumber", e.target.value);
+                            }}
+                          />
+                        </Form.Group>
 
-                      <Form.Group className="mb-2" controlId="formBasicEmail">
-                        <Form.Label>Enter your email</Form.Label>
-                        <Form.Control
-                          type="email"
-                          placeholder="your@email.com"
-                          value={user.email}
-                          onChange={(e) => {
-                            handleChange("email", e.target.value);
-                          }}
-                        />
-                        <Form.Text className="text-white">
-                          It is important that you enter a valid e-mail as this
-                          is where we will send you updates on your searches or
-                          to recover your password.
-                        </Form.Text>
-                      </Form.Group>
+                        <Form.Group className="mb-2" controlId="formBasicEmail">
+                          <Form.Label>Enter your email</Form.Label>
+                          <Form.Control
+                            type="email"
+                            placeholder="your@email.com"
+                            value={user.email}
+                            onChange={(e) => {
+                              handleChange("email", e.target.value);
+                            }}
+                          />
+                          <Form.Text className="text-white">
+                            It is important that you enter a valid e-mail as
+                            this is where we will send you updates on your
+                            searches or to recover your password.
+                          </Form.Text>
+                        </Form.Group>
 
-                      <Button
-                        variant="btn btn-outline-light me-1"
-                        onClick={handlePreviousStep}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="btn btn-light"
-                        onClick={handleNextStep}
-                        disabled={!isValidStep(step)}
-                      >
-                        Next
-                      </Button>
+                        <Button
+                          variant="btn btn-outline-light me-1"
+                          onClick={handlePreviousStep}
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          variant="btn btn-light"
+                          onClick={handleNextStep}
+                          disabled={!isValidStep(step)}
+                        >
+                          Next
+                        </Button>
+                      </div>
                     </>
                   )}
 
                   {step === 3 && (
                     <>
-                      {/* STEP 3 */}
-                      <Form.Label className="text-white mb-2">
-                        How would you like to use MyRommate?
-                      </Form.Label>
-                      <Form.Select
-                        aria-label="Select usage"
-                        value={user.usage}
-                        onChange={(e) => {
-                          handleChange("usage", e.target.value);
-                        }}
-                        className="mb-2"
-                      >
-                        <option value="">Select usage</option>
-                        <option value="SEARCH_ROOM">
-                          Im looking for a room
-                        </option>
-                        <option value="LOOKING_ROOMMATE">
-                          Im looking for a roommate for my property
-                        </option>
-                        <option value="RENTING_APARTMENT">
-                          Im renting out a room in my apartment
-                        </option>
-                      </Form.Select>
-                      <Button
-                        variant="btn btn-outline-light me-1"
-                        onClick={handlePreviousStep}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="btn btn-light"
-                        onClick={handleNextStep}
-                        disabled={!isValidStep(step)}
-                      >
-                        Next
-                      </Button>
+                      <div className="vh-100">
+                        {/* STEP 3 */}
+                        <Form.Label className="text-white mb-2">
+                          How would you like to use MyRommate?
+                        </Form.Label>
+                        <Form.Select
+                          aria-label="Select usage"
+                          value={user.usage}
+                          onChange={(e) => {
+                            handleChange("usage", e.target.value);
+                          }}
+                          className="mb-2"
+                        >
+                          <option value="">Select usage</option>
+                          <option value="SEARCH_ROOM">
+                            I am looking for rooms to move into
+                          </option>
+                          <option value="LOOKING_ROOMMATE">
+                            I want to place room advertisements in the house
+                            where I live
+                          </option>
+                          <option value="RENTING_APARTMENT">
+                            I have vacant rooms in a house and would like to
+                            rent them out, but I do not live in that property
+                          </option>
+                          <option value="IM_ROOMMATE">
+                            I am a roommate in a house with rooms to rent
+                          </option>
+                        </Form.Select>
+                        <Button
+                          variant="btn btn-outline-light me-1"
+                          onClick={handlePreviousStep}
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          variant="btn btn-light"
+                          onClick={handleNextStep}
+                          disabled={!isValidStep(step)}
+                        >
+                          Next
+                        </Button>
+                      </div>
                     </>
                   )}
 
                   {step === 4 && (
                     <>
-                      {/* STEP 4 */}
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicPassword"
-                      >
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control
-                          type="password"
-                          placeholder="Password"
-                          value={user.password}
-                          onChange={(e) => {
-                            handleChange("password", e.target.value);
-                          }}
-                        />
-                      </Form.Group>
-                      <Button
-                        variant="btn btn-outline-light me-1"
-                        onClick={handlePreviousStep}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="light"
-                        type="submit"
-                        disabled={!isValidStep(step)}
-                      >
-                        Sign Up
-                      </Button>
+                      <div className="vh-100">
+                        {/* STEP 4 */}
+                        <Form.Group
+                          className="mb-3"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Label>Password</Form.Label>
+                          <Form.Control
+                            type="password"
+                            placeholder="Password"
+                            value={user.password}
+                            onChange={(e) => {
+                              handleChange("password", e.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                        <Button
+                          variant="btn btn-outline-light me-1"
+                          onClick={handlePreviousStep}
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          variant="light"
+                          type="submit"
+                          disabled={!isValidStep(step)}
+                        >
+                          Sign Up
+                        </Button>
+                      </div>
                     </>
                   )}
                 </Form>

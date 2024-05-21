@@ -5,7 +5,7 @@ import CardSummaryHomePage from "./CardSummaryHomePage";
 import { useLocation } from "react-router-dom";
 import CustomNavbar from "./CustomNavbar";
 import { useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 
 const Favorites = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,14 @@ const Favorites = () => {
           Here are your favourite rooms
         </h5>
         {isLoading ? (
-          <p>aaa</p>
+          <div className="text-center mt-4">
+            <h1 className="text-Pulsanti">Loading</h1>
+            <Spinner
+              animation="grow"
+              className="text-center"
+              variant="Pulsanti"
+            />
+          </div>
         ) : isError ? (
           <div className="error-message">
             <p>Error loading rooms...</p>
@@ -38,19 +45,25 @@ const Favorites = () => {
         ) : (
           <Container>
             <Row>
-              {roomsFetch.map((room) => (
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={6}
-                  xl={6}
-                  key={room.id}
-                  className="mb-4"
-                >
-                  <CardSummaryHomePage key={room.id} room={room} />
-                </Col>
-              ))}
+              {roomsFetch.length !== 0 ? (
+                roomsFetch.map((room) => (
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={6}
+                    lg={6}
+                    xl={6}
+                    key={room.id}
+                    className="mb-4"
+                  >
+                    <CardSummaryHomePage key={room.id} room={room} />
+                  </Col>
+                ))
+              ) : (
+                <p className="text-center fw-semibold fs-4">
+                  You have not yet added any rooms to your favourites
+                </p>
+              )}
             </Row>
           </Container>
         )}

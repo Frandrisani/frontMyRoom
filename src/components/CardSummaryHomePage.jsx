@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Card,
   Row,
@@ -17,11 +18,20 @@ import PropTypes from "prop-types";
 import { saveRoomInFavorites, deleteRoomInFavorites } from "../redux/actions/";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 
 const CardSummaryHomePage = ({ room }) => {
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const roomsFetch = useSelector((state) => state.listRoomPrefe.rooms);
+  const location = useLocation();
+
+  useEffect(() => {
+    setCurrentPage(location.pathname);
+  }, [location]);
 
   useEffect(() => {
     setIsFavorite(roomsFetch.some((rooms) => rooms.id === room.id));
@@ -31,7 +41,12 @@ const CardSummaryHomePage = ({ room }) => {
     if (isFavorite === false) {
       await dispatch(saveRoomInFavorites(roomId));
     } else {
-      await dispatch(deleteRoomInFavorites(roomId));
+      if (currentPage === "/fav") {
+        await dispatch(deleteRoomInFavorites(roomId));
+        window.location.reload();
+      } else {
+        await dispatch(deleteRoomInFavorites(roomId));
+      }
     }
   };
 
@@ -146,63 +161,111 @@ const CardSummaryHomePage = ({ room }) => {
         <Modal.Body>
           <Container fluid>
             <Row>
-              <Col md={6}>
+              <Col md={12}>
                 {room.image ? (
-                  <Card.Img variant="top" src={room.image} />
+                  <Zoom>
+                    <Card.Img variant="top" src={room.image} />
+                  </Zoom>
                 ) : (
-                  <Card.Img
-                    variant="top"
-                    src="https://via.placeholder.com/800x400?text=Apartment"
-                  />
+                  <Zoom>
+                    <Card.Img
+                      variant="top"
+                      src="https://via.placeholder.com/800x400?text=Apartment"
+                    />
+                  </Zoom>
                 )}
               </Col>
-              <Col md={6}>
-                <Modal.Title
-                  id="contained-modal-title-vcenter"
-                  className="fs-1 fw-semibold text-Pulsanti"
-                >
-                  {room.title}
-                </Modal.Title>
-                <Card.Text className="text-Pulsanti fw-light mb-0">
-                  {room.address}, {room.zipCode} -{" "}
-                  <span className="fw-bold">{room.city} </span>
-                </Card.Text>
-                <Card.Text className="text-Pulsanti fw-bold fs-4 mb-1">
-                  {roomType}
-                </Card.Text>
-                <Card.Text className="fw-bold text-Pulsanti fs-1 mt-0 mb-1">
-                  €{room.price}
-                </Card.Text>
-                <div>
-                  <Card.Text className="fw-bold text-Pulsanti fs-5 mt-0 mb-15">
-                    <BadgeWcFill /> <span className="fw-normal"> Toilets</span>
-                  </Card.Text>
-                  <Card.Text className="text-dark fs-5 fw-light mb-1">
-                    {room.wc}
+              <Col md={12}>
+                <div className="bg-Pulsanti ps-1 pt-1 pb-1 rounded-bottom">
+                  <Modal.Title
+                    id="contained-modal-title-vcenter"
+                    className="fs-3 fw-semibold text-white"
+                  >
+                    {room.title}
+                  </Modal.Title>
+                  <Card.Text className="text-white fw-light mb-0">
+                    {room.address}, {room.zipCode} -{" "}
+                    <span className="fw-bold">{room.city} </span>
                   </Card.Text>
                 </div>
-                <div>
-                  <Card.Text className="fw-bold text-Pulsanti fs-5 mt-0 mb-15">
-                    <HousesFill /> <span className="fw-normal"> Bedrooms</span>
+                <div className="bg-Pulsanti ps-1 pt-1 pb-1 rounded mt-2">
+                  <p className="mb-0 text-Pulsanti rounded fw-bold px-20 bg-white d-inline">
+                    House type
+                  </p>
+                  <Card.Text className="text-white fw-bold fs-2 mb-1">
+                    {roomType}
                   </Card.Text>
-                  <Card.Text className="text-dark fw-light fs-5 mb-1">
-                    {room.bedrooms}
+                  <p className="mb-0 text-Pulsanti rounded fw-bold px-20 bg-white d-inline">
+                    Room price
+                  </p>
+                  <Card.Text className="fw-bold text-white fs-2 mt-0 mb-1">
+                    €{room.price}
                   </Card.Text>
                 </div>
-                <div>
-                  <Card.Text className="fw-bold text-Pulsanti fs-4 mt-0 mb-15">
+                <div className="bg-Pulsanti ps-1 pt-1 pb-1 rounded mt-2">
+                  <p className="mb-0 text-Pulsanti rounded fw-bold px-20 bg-white d-inline">
+                    House details
+                  </p>
+                  <div className="d-flex mt-1 mb-0">
+                    <Card.Text className="fw-bold text-white fs-5 mt-0 mb-15">
+                      <BadgeWcFill />{" "}
+                      <span className="fw-normal"> Toilets:</span>
+                    </Card.Text>
+                    <Card.Text className="text-white fs-5 fw-light mb-1 ms-1">
+                      {room.wc}
+                    </Card.Text>
+                  </div>
+                  <div className="d-flex mt-0">
+                    <Card.Text className="fw-bold text-white fs-5 mt-0 mb-15">
+                      <HousesFill />{" "}
+                      <span className="fw-normal"> Bedrooms: </span>
+                    </Card.Text>
+                    <Card.Text className="text-white fw-light fs-5 mb-1 ms-1">
+                      {room.bedrooms}
+                    </Card.Text>
+                  </div>
+                </div>
+                <div className="bg-Pulsanti ps-1 pt-1 pb-1 rounded mt-2">
+                  <Card.Text className="fw-bold text-white fs-4 mt-0 mb-15">
                     Description
                   </Card.Text>
-                  <Card.Text className="text-dark fw-light mb-1">
+                  <Card.Text className="text-white fw-light mb-1">
                     {room.description}
                   </Card.Text>
+                </div>
+                <div className="bg-Pulsanti ps-1 pt-1 pb-1 rounded mt-2">
+                  <Card.Text className="fw-bold text-white fs-4 mt-0 mb-15">
+                    Ad owner
+                  </Card.Text>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <img
+                      src={room.user.avatar}
+                      alt="profile picture"
+                      className="shadow-lg rounded-circle border border-2 border-Pulsanti mb-1"
+                      width="100"
+                      height="100"
+                    />
+                    <div className="ms-2">
+                      <p className=" text-white mb-0">{room.user.firstName}</p>
+                      <p className=" text-white">{room.user.lastName}</p>
+                    </div>
+                  </div>
+                  <div className="mt-1 d-flex justify-content-center align-items-center flex-column mb-1">
+                    <p className=" text-white mb-1">
+                      Are you interested in the room? Contact the owner of the
+                      ad
+                    </p>
+                    <Button variant="light" className="shadow">
+                      Reply to the ad
+                    </Button>
+                  </div>
                 </div>
               </Col>
             </Row>
             <Row className="mt-1">
               <Col>
-                <div className="bg-Pulsanti p-2 rounded mb-3">
-                  <h5 className="text-white fs-2 fw-bold mb-1">Roommates</h5>
+                <div className="bg-Pulsanti p-1 rounded mb-3 mt-1">
+                  <h5 className="text-white fs-4 fw-bold mb-1">Roommates</h5>
                   {loading ? (
                     <Spinner animation="border" variant="light" />
                   ) : (

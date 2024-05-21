@@ -283,7 +283,7 @@ const CardHome = ({ room }) => {
 
       <Alert
         show={showAlert}
-        variant={errorMessage ? "danger" : "success"}
+        variant={errorMessage ? "danger" : "light"}
         onClose={handleCloseAlert}
         dismissible
       >
@@ -297,7 +297,11 @@ const CardHome = ({ room }) => {
         </p>
         {user && !errorMessage && (
           <div className="d-flex justify-content-end">
-            <Button onClick={handleAddUser} variant="Pulsanti">
+            <Button
+              onClick={handleAddUser}
+              variant="Pulsanti"
+              className="fw-bolder text-white"
+            >
               Add User
             </Button>
           </div>
