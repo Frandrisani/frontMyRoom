@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Card,
   Row,
@@ -7,6 +8,7 @@ import {
   Form,
   Alert,
   Spinner,
+  Carousel,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { People, House, Trash3, Pencil } from "react-bootstrap-icons";
@@ -140,9 +142,19 @@ const CardHome = ({ room }) => {
   return (
     <>
       <Card className="border border-BackgroundAppWelcomePage mb-2 mx-1 border-3 rounded-3">
-        {room.image ? (
+        {room.images ? (
           <div className="position-relative">
-            <Card.Img variant="top" src={room.image} className="rounded-top" />
+            <Carousel>
+              {room.images.map((imageUrl, index) => (
+                <Carousel.Item key={index}>
+                  <Card.Img
+                    variant="top"
+                    src={imageUrl}
+                    style={{ height: "500px", width: "100%" }}
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
             <Link to={`/edit-image-room/${room.id}`}>
               <Button className="bg-light text-white position-absolute top-0 start-100 translate-middle badge rounded-pill">
                 <Pencil className="fs-4 m-0 text-Pulsanti" />

@@ -17,7 +17,7 @@ const EditImageRoom = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const isValidStep = () => {
-    return selectedImage !== null && selectedImage !== "";
+    return selectedImage !== null && selectedImage.length > 0;
   };
 
   const location = useLocation();
@@ -26,12 +26,14 @@ const EditImageRoom = () => {
   }, [location]);
 
   const handleImageChange = (e) => {
-    setSelectedImage(e.target.files[0]);
+    setSelectedImage(Array.from(e.target.files));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(uploadImageRoom(id, selectedImage));
+    selectedImage.forEach((image) => {
+      dispatch(uploadImageRoom(id, image));
+    });
     navigate("/ad");
   };
 
@@ -50,7 +52,11 @@ const EditImageRoom = () => {
                 </Form.Text>
                 <Form.Group controlId="formFile" className="mb-0">
                   <Form.Label>Choose a room image</Form.Label>
-                  <Form.Control type="file" onChange={handleImageChange} />
+                  <Form.Control
+                    type="file"
+                    multiple
+                    onChange={handleImageChange}
+                  />
                 </Form.Group>
                 <Form.Text className="text-center">
                   <p className="text-start text-white mt-1 mb-3">

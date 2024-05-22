@@ -9,6 +9,7 @@ import {
   Spinner,
   Alert,
   Form,
+  Carousel,
 } from "react-bootstrap";
 import {
   Heart,
@@ -151,16 +152,23 @@ const CardSummaryHomePage = ({ room }) => {
   return (
     <>
       <Card className="border border-BackgroundAppWelcomePage text-bg-Pulsanti mt-1 mb-2 border-3 rounded-3">
-        {room.image ? (
+        {room & room.images ? (
           <div className="position-relative">
             <Card.Img variant="top" src={room.image} />
           </div>
         ) : (
           <div className="position-relative">
-            <Card.Img
-              variant="top"
-              src="https://via.placeholder.com/800x400?text=Apartment"
-            />
+            <Carousel>
+              {room.images.map((imageUrl, index) => (
+                <Carousel.Item key={index}>
+                  <Card.Img
+                    variant="top"
+                    src={imageUrl}
+                    style={{ height: "300px", width: "100%" }}
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
           </div>
         )}
         <Card.Body className="d-flex flex-column justify-content-start align-items-start">
@@ -219,17 +227,22 @@ const CardSummaryHomePage = ({ room }) => {
           <Container fluid>
             <Row>
               <Col md={12}>
-                {room.image ? (
-                  <Zoom>
-                    <Card.Img variant="top" src={room.image} />
-                  </Zoom>
+                {room & room.images ? (
+                  <Card.Img variant="top" src={room.image} />
                 ) : (
-                  <Zoom>
-                    <Card.Img
-                      variant="top"
-                      src="https://via.placeholder.com/800x400?text=Apartment"
-                    />
-                  </Zoom>
+                  <Carousel>
+                    {room.images.map((imageUrl, index) => (
+                      <Carousel.Item key={index}>
+                        <Zoom>
+                          <Card.Img
+                            variant="top"
+                            src={imageUrl}
+                            style={{ height: "500px", width: "100%" }}
+                          />
+                        </Zoom>
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
                 )}
               </Col>
               <Col md={12}>

@@ -611,10 +611,10 @@ export const uploadImageRoom = (roomId, image) => async (dispatch) => {
     const token = sessionStorage.getItem("token");
 
     const formData = new FormData();
-    formData.append("image", image);
+    formData.append("images", image);
 
     const response = await fetch(
-      `http://localhost:3001/rooms/${roomId}/image`,
+      `http://localhost:3001/rooms/${roomId}/images`,
       {
         method: "PUT",
         headers: {
